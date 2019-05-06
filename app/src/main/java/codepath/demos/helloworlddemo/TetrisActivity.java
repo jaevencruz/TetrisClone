@@ -2,13 +2,18 @@ package codepath.demos.helloworlddemo;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.Window;
 import android.view.Menu;
+import android.view.WindowManager;
 
-public class HelloWorldActivity extends Activity {
+public class TetrisActivity extends Activity {
 
+	//The onCreate function initializes stuff
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_hello_world);
 	}
 
