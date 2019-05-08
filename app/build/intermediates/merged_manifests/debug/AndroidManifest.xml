@@ -16,7 +16,7 @@
         android:testOnly="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="codepath.demos.helloworlddemo.TetrisActivity"
+            android:name="codepath.demos.helloworlddemo.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

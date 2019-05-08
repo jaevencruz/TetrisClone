@@ -2,11 +2,14 @@ package codepath.demos.helloworlddemo;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.View;
 import android.view.Window;
 import android.view.Menu;
 import android.view.WindowManager;
 
-public class TetrisActivity extends Activity {
+public class MainActivity extends Activity {
+
+	private CustomView mCustomView;
 
 	//The onCreate function initializes stuff
 	@Override
@@ -15,6 +18,23 @@ public class TetrisActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_hello_world);
+
+		mCustomView = (CustomView) findViewById(R.id.customView);
+
+		findViewById(R.id.btn_swap_color).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.swapColor();
+			}
+		});
+
+		 int[][] tetrisSpace = new int[10][16];
+		 for(int i = 0; i < 10; i++){
+		 	for(int j = 0; j < 16; j++){
+		 		tetrisSpace[i][j] = 0;
+			}
+		 }
+
 	}
 
 	@Override

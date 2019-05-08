@@ -1,11 +1,8 @@
 package codepath.demos.helloworlddemo;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 public class TetrisView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -27,7 +24,7 @@ public class TetrisView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        CharacterSprite = new CharacterSprite(BitmapFactory.decodeResource(getResources(),R.drawable.bridge));
+        //CharacterSprite = new CharacterSprite(BitmapFactory.decodeResource(getResources(),R.drawable.bridge));
         thread.setRunning(true);
         thread.start();
     }
@@ -47,15 +44,15 @@ public class TetrisView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-        CharacterSprite.update();
+        System.out.println("Haha");
     }
 
-    @Override
-    public void draw(Canvas canvas){
+    //@Override
+    /*public void onDraw(Canvas canvas, Rect rectangle){
         super.draw(canvas);
         if(canvas!=null){
-            CharacterSprite.draw(canvas);
+            CharacterSprite.draw(canvas, rectangle);
         }
-    }
+    }*/
 }
 

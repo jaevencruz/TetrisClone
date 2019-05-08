@@ -27,12 +27,12 @@ ADDED from C:\Users\jaeve\AndroidStudioProjects\Tetris\app\src\main\AndroidManif
 		ADDED from C:\Users\jaeve\AndroidStudioProjects\Tetris\app\src\main\AndroidManifest.xml:8:9-35
 	android:theme
 		ADDED from C:\Users\jaeve\AndroidStudioProjects\Tetris\app\src\main\AndroidManifest.xml:11:9-40
-activity#codepath.demos.helloworlddemo.TetrisActivity
+activity#codepath.demos.helloworlddemo.MainActivity
 ADDED from C:\Users\jaeve\AndroidStudioProjects\Tetris\app\src\main\AndroidManifest.xml:12:9-20:20
 	android:label
 		ADDED from C:\Users\jaeve\AndroidStudioProjects\Tetris\app\src\main\AndroidManifest.xml:14:13-45
 	android:name
-		ADDED from C:\Users\jaeve\AndroidStudioProjects\Tetris\app\src\main\AndroidManifest.xml:13:13-72
+		ADDED from C:\Users\jaeve\AndroidStudioProjects\Tetris\app\src\main\AndroidManifest.xml:13:13-70
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
 ADDED from C:\Users\jaeve\AndroidStudioProjects\Tetris\app\src\main\AndroidManifest.xml:15:13-19:29
 action#android.intent.action.MAIN
