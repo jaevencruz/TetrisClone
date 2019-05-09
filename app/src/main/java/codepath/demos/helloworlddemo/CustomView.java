@@ -17,6 +17,7 @@ public class CustomView extends View {
 
     private Rect mRectSquare;
     private Paint mPaintSquare;
+    private Rect [][] rectArray;
 
     private int mSquareColor;
     private int mSquareSize;
@@ -40,6 +41,8 @@ public class CustomView extends View {
     }
 
     private void init(@Nullable AttributeSet set){
+
+
         mRectSquare = new Rect();
         mPaintSquare = new Paint(Paint.ANTI_ALIAS_FLAG);
 
@@ -58,20 +61,48 @@ public class CustomView extends View {
     @Override
     protected void onDraw(Canvas canvas){
         //canvas.drawColor(Color.RED);
+        Rect[][] rectArray = new Rect[10][16];
+        Paint gray = new Paint();
+        gray.setColor(Color.LTGRAY);
+
+        /*for(int i = 0; i < 10; i++){
+            for(int j = 0; j < 16; j++){
+                rectArray[i][j].left = 1*(j);
+                rectArray[i][j].top = 1*i;
+                rectArray[i][j].right = rectArray[i][j].left + SQUARE_SIZE_DEF;
+                rectArray[i][j].bottom = rectArray[i][j].top + SQUARE_SIZE_DEF;
+                canvas.drawRect(rectArray[i][j],gray);
+                postInvalidate();
+
+            }
+        }*/
 
         mRectSquare.left = 50;
         mRectSquare.top = 50;
         mRectSquare.right = mRectSquare.left + SQUARE_SIZE_DEF;
         mRectSquare.bottom = mRectSquare.top + SQUARE_SIZE_DEF;
 
-
-
         canvas.drawRect(mRectSquare,mPaintSquare);
     }
 
     public void swapColor(){
-        mPaintSquare.setColor(mPaintSquare.getColor() == mSquareColor ? Color.RED : Color.GREEN);
+        if(mPaintSquare.getColor() == Color.RED){
+            mPaintSquare.setColor(Color.GREEN);
+        }
+        else if(mPaintSquare.getColor() == Color.GREEN){
+            mPaintSquare.setColor(Color.RED);
+        }
+        else {
+            mPaintSquare.setColor(mPaintSquare.getColor() == mSquareColor ? Color.RED : Color.GREEN);
+        }
         postInvalidate();
+    }
+
+    public void moveDown(){
+        mRectSquare.left = 50;
+        mRectSquare.top = 50;
+        mRectSquare.right = mRectSquare.left + SQUARE_SIZE_DEF;
+        mRectSquare.bottom = mRectSquare.top + SQUARE_SIZE_DEF;
     }
 }
 

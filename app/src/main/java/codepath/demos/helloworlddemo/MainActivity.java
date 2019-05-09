@@ -1,15 +1,16 @@
 package codepath.demos.helloworlddemo;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
-import android.view.Menu;
 import android.view.WindowManager;
 
 public class MainActivity extends Activity {
 
 	private CustomView mCustomView;
+	//private MainThread thread;
 
 	//The onCreate function initializes stuff
 	@Override
@@ -18,8 +19,10 @@ public class MainActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_hello_world);
+		//setContentView(new GamePanel(this));
 
 		mCustomView = (CustomView) findViewById(R.id.customView);
+
 
 		findViewById(R.id.btn_swap_color).setOnClickListener(new View.OnClickListener() {
 			@Override
