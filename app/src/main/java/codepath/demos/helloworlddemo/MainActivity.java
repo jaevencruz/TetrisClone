@@ -55,6 +55,13 @@ public class MainActivity extends Activity {
 			}
 		});
 
+        findViewById(R.id.btn_move_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCustomView.moveLeft();
+            }
+        });
+
 
 
 		 int[][] tetrisSpace = new int[10][16];

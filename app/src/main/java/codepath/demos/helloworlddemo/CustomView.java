@@ -142,6 +142,15 @@ public class CustomView extends View {
         postInvalidate();
     }
 
+    public void moveLeft(){
+        for(int i = 0; i < doubleRect.length; i++) {
+            doubleRect[i].left = doubleRect[i].left - SQUARE_SIZE_DEF;
+
+            doubleRect[i].right = doubleRect[i].left - SQUARE_SIZE_DEF;
+        }
+        postInvalidate();
+    }
+
     public void moveUp(){
         for(int i = 0; i < doubleRect.length; i++) {
             doubleRect[i].top = doubleRect[i].top - SQUARE_SIZE_DEF;
