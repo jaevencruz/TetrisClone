@@ -11,6 +11,8 @@ import android.view.View;
 
 import org.jetbrains.annotations.Nullable;
 
+import static codepath.demos.helloworlddemo.MainThread.canvas;
+
 public class CustomView extends View {
 
     private static final int SQUARE_SIZE_DEF = 200;
@@ -40,6 +42,7 @@ public class CustomView extends View {
         super(context,attrs,defStyleAttr,defStyleRes);
     }
 
+    //the init function is the place to initialize stuff, such as creating a new rectangle and such
     private void init(@Nullable AttributeSet set){
 
 
@@ -99,10 +102,13 @@ public class CustomView extends View {
     }
 
     public void moveDown(){
-        mRectSquare.left = 50;
-        mRectSquare.top = 50;
-        mRectSquare.right = mRectSquare.left + SQUARE_SIZE_DEF;
-        mRectSquare.bottom = mRectSquare.top + SQUARE_SIZE_DEF;
+
+        mRectSquare.top = mRectSquare.top - 10;
+
+        mRectSquare.bottom = mRectSquare.top + SQUARE_SIZE_DEF - 10;
+        System.out.println("mRectSquare.top: "+ mRectSquare.top + " mRectSquare.bottom: "+mRectSquare);
+        canvas.drawRect(mRectSquare,mPaintSquare);
+        postInvalidate();
     }
 }
 

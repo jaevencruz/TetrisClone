@@ -21,6 +21,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_hello_world);
 		//setContentView(new GamePanel(this));
 
+		//TetrisView tv = new TetrisView(this.getBaseContext(),t);
+		//setContentView(tv); Thread stuff gets initialized
+
 		mCustomView = (CustomView) findViewById(R.id.customView);
 
 
@@ -30,11 +33,18 @@ public class MainActivity extends Activity {
 				mCustomView.swapColor();
 			}
 		});
+		findViewById(R.id.btn_move_down).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.moveDown();
+			}
+		});
 
 		 int[][] tetrisSpace = new int[10][16];
 		 for(int i = 0; i < 10; i++){
 		 	for(int j = 0; j < 16; j++){
 		 		tetrisSpace[i][j] = 0;
+		 		System.out.println("The value of i: " + i + " The value of j: "+j);
 			}
 		 }
 

@@ -19,8 +19,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/customView"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="103dp"
-        android:layout_marginEnd="154dp"
+        android:layout_marginTop="482dp"
+        android:layout_marginEnd="289dp"
         android:text="Swap Color" />
+
+    <Button
+        android:id="@+id/btn_move_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="156dp"
+        android:layout_marginBottom="48dp"
+        android:text="Move Down" />
 
 </RelativeLayout>
