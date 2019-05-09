@@ -33,10 +33,18 @@ public class MainActivity extends Activity {
 				mCustomView.swapColor();
 			}
 		});
+
 		findViewById(R.id.btn_move_down).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				mCustomView.moveDown();
+			}
+		});
+
+		findViewById(R.id.btn_move_right).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.moveRight();
 			}
 		});
 

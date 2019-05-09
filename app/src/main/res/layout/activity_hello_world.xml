@@ -6,12 +6,10 @@
     tools:context=".MainActivity" >
 
     <codepath.demos.helloworlddemo.CustomView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
         android:id="@+id/customView"
-        app:square_color="@color/squareColor"
-        app:square_size="@dimen/square_size"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:square_size="@dimen/square_size" />
 
     <Button
         android:id="@+id/btn_swap_color"
@@ -19,8 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/customView"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="482dp"
-        android:layout_marginEnd="289dp"
+        android:layout_marginTop="86dp"
+        android:layout_marginEnd="139dp"
         android:text="Swap Color" />
 
     <Button
@@ -29,8 +27,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="156dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginEnd="138dp"
+        android:layout_marginBottom="29dp"
         android:text="Move Down" />
+
+    <Button
+        android:id="@+id/btn_move_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/customView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="7dp"
+        android:text="Move Right" />
 
 </RelativeLayout>
