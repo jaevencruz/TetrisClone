@@ -6,10 +6,10 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
+public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
 
-    public GamePanel(Context context){
+    public CustomSurfaceView(Context context){
         super(context);
 
         getHolder().addCallback(this);
@@ -63,3 +63,4 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
     }
 }
+

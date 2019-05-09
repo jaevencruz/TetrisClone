@@ -17,12 +17,13 @@ import java.util.Random;
 
 public class CustomView extends View {
 
-    private static final int SQUARE_SIZE_DEF = 100;
+    private static final int SQUARE_SIZE_DEF = 100 ;
 
     private Rect mRectSquare;
     private Paint mPaintSquare;
     private Rect [][] rectArray;
     private Rect [] doubleRect;
+    private Paint dPaint;
 
     private int mSquareColor;
     private int mSquareSize;
@@ -48,6 +49,8 @@ public class CustomView extends View {
     //the init function is the place to initialize stuff, such as creating a new rectangle and such
     private void init(@Nullable AttributeSet set){
         doubleRect = new Rect[4];
+        dPaint = new Paint();
+        dPaint.setColor(Color.LTGRAY);
         for(int i = 0 ; i < 4; i++){
            doubleRect[i] = new Rect();
         }
@@ -95,8 +98,8 @@ public class CustomView extends View {
 
     @Override
     protected void onDraw(Canvas canvas){
-        Paint gray = new Paint();
-        gray.setColor(Color.LTGRAY);
+
+        dPaint.setColor(colorRandom());
         //canvas.drawColor(Color.RED);
         /*for(int i = 0; i < 10; i++){
             for(int j = 0; j < 16; i++){
@@ -106,13 +109,13 @@ public class CustomView extends View {
 
 
         for(int i = 0; i < doubleRect.length; i++){
-            canvas.drawRect(doubleRect[i], gray);
+            canvas.drawRect(doubleRect[i], dPaint);
         }
-        canvas.drawRect(mRectSquare,mPaintSquare);
+
     }
 
     public void swapColor(){
-        mPaintSquare.setColor(colorRandom());
+        dPaint.setColor(colorRandom());
         postInvalidate();
     }
 
@@ -120,7 +123,7 @@ public class CustomView extends View {
         for(int i = 0; i < doubleRect.length; i++) {
             doubleRect[i].top = doubleRect[i].top + SQUARE_SIZE_DEF;
 
-            doubleRect[i].bottom = doubleRect[i].top + SQUARE_SIZE_DEF;
+            doubleRect[i].bottom = doubleRect[i].bottom + SQUARE_SIZE_DEF;
         }
         postInvalidate();
     }
@@ -138,6 +141,17 @@ public class CustomView extends View {
         }
         postInvalidate();
     }
+
+    public void moveUp(){
+        for(int i = 0; i < doubleRect.length; i++) {
+            doubleRect[i].top = doubleRect[i].top - SQUARE_SIZE_DEF;
+
+            doubleRect[i].bottom = doubleRect[i].bottom - SQUARE_SIZE_DEF;
+        }
+        postInvalidate();
+    }
+
+
 }
 
 

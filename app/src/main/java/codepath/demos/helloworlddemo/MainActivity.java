@@ -19,10 +19,10 @@ public class MainActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_hello_world);
-		//setContentView(new GamePanel(this));
 
-		//TetrisView tv = new TetrisView(this.getBaseContext(),t);
-		//setContentView(tv); Thread stuff gets initialized
+
+		//CustomSurfaceView tv = new CustomSurfaceView(this.getBaseContext());
+		//setContentView(tv); //Thread stuff gets initialized
 
 		mCustomView = (CustomView) findViewById(R.id.customView);
 
@@ -47,6 +47,15 @@ public class MainActivity extends Activity {
 				mCustomView.moveRight();
 			}
 		});
+
+		findViewById(R.id.btn_move_up).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.moveUp();
+			}
+		});
+
+
 
 		 int[][] tetrisSpace = new int[10][16];
 		 for(int i = 0; i < 10; i++){
