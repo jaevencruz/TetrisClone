@@ -2,7 +2,6 @@ package codepath.demos.helloworlddemo;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-import static codepath.demos.helloworlddemo.MainThread.canvas;
 
 
 public class CustomView extends View {
@@ -324,6 +322,7 @@ public class CustomView extends View {
         tetromino[3].bottom = tetromino[3].top + SQUARE_SIZE_DEF;
     }
 
+    //Randomly picks a piece to initialize
     public void tetrominoPicker(){
         Random tPicker = new Random();
         while(true){
