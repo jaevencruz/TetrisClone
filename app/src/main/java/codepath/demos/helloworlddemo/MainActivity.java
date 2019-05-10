@@ -1,15 +1,16 @@
 package codepath.demos.helloworlddemo;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
-import android.view.Menu;
 import android.view.WindowManager;
 
 public class MainActivity extends Activity {
 
 	private CustomView mCustomView;
+	//private MainThread thread;
 
 	//The onCreate function initializes stuff
 	@Override
@@ -19,7 +20,12 @@ public class MainActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_hello_world);
 
+
+		//CustomSurfaceView tv = new CustomSurfaceView(this.getBaseContext());
+		//setContentView(tv); //Thread stuff gets initialized
+
 		mCustomView = (CustomView) findViewById(R.id.customView);
+
 
 		findViewById(R.id.btn_swap_color).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -28,10 +34,41 @@ public class MainActivity extends Activity {
 			}
 		});
 
+		findViewById(R.id.btn_move_down).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.moveDown();
+			}
+		});
+
+		findViewById(R.id.btn_move_right).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.moveRight();
+			}
+		});
+
+		findViewById(R.id.btn_move_up).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.moveUp();
+			}
+		});
+
+        findViewById(R.id.btn_move_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCustomView.moveLeft();
+            }
+        });
+
+
+
 		 int[][] tetrisSpace = new int[10][16];
 		 for(int i = 0; i < 10; i++){
 		 	for(int j = 0; j < 16; j++){
 		 		tetrisSpace[i][j] = 0;
+		 		System.out.println("The value of i: " + i + " The value of j: "+j);
 			}
 		 }
 

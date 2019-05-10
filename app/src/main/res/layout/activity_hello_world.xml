@@ -6,31 +6,64 @@
     tools:context=".MainActivity" >
 
     <codepath.demos.helloworlddemo.CustomView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
         android:id="@+id/customView"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
         app:square_color="@color/squareColor"
-        app:square_size="@dimen/square_size"
-        />
+        app:square_size="@dimen/square_size" />
 
     <Button
         android:id="@+id/btn_swap_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/customView"
+
+        android:layout_alignTop="@+id/customView"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="-116dp"
-        android:layout_marginEnd="151dp"
+        android:layout_marginTop="318dp"
+        android:layout_marginEnd="124dp"
         android:text="Swap Color" />
 
-    <TextView
+    <Button
+        android:id="@+id/btn_move_down"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="404dp"
-        android:text="Hello World!"
-        android:textSize="25sp" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="141dp"
+        android:layout_marginBottom="26dp"
+        android:text="Move Down" />
+
+    <Button
+        android:id="@+id/btn_move_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/customView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="7dp"
+        android:text="Move Right" />
+
+    <Button
+        android:id="@+id/btn_move_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_move_down"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="154dp"
+        android:layout_marginBottom="78dp"
+        android:text=" Move Up " />
+
+    <Button
+        android:id="@+id/btn_move_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="305dp"
+        android:layout_marginBottom="89dp"
+        android:text="Move Left" />
+
 
 </RelativeLayout>
