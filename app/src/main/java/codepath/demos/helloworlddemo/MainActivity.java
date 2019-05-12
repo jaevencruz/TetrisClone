@@ -71,8 +71,18 @@ public class MainActivity extends Activity {
 				mCustomView.tetrominoPicker();
 			}
 		});
-
-
+		findViewById(R.id.rotateclock).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.rotateclock();
+			}
+		});
+		findViewById(R.id.rotatecounter).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.rotatecounter();
+			}
+		});
 
 
 

@@ -324,91 +324,67 @@ public class CustomView extends View {
         tetromino[3].bottom = tetromino[3].top + SQUARE_SIZE_DEF;
     }
     public void rotateclock(){
-        Rect temp[] = new Rect[3];
+        Rect torque = new Rect();
         double current=0, rotate, radius;
         int newx, newy, x, y;
-        int torquex =1, torquey = 1;
 
-        for(int i = 0; i < 3;i++){
-            for(int j = 0; j < 3; j++){
-                x = torquex-i;
-                y = torquey=j;
-                radius = Math.sqrt(x*x+y*y);
-                if(radius==0) {
-                    newx=i;
-                    newy=j;
-                }
-                else{
-                    current = Math.atan2((torquex - i), (torquey - j));
-                    rotate = current - 3.14159 / 2;
-                    newx = (int) (radius * Math.cos(rotate));
-                    newy = (int) (radius * Math.sin(rotate));
-                }
-                tetromino[0].left = (newx - tetromino[0].left) * SQUARE_SIZE_DEF;
-                tetromino[0].top = (newy - tetromino[0].top) * SQUARE_SIZE_DEF;
-                tetromino[0].right = (newx - tetromino[0].right) * SQUARE_SIZE_DEF;
-                tetromino[0].bottom = (newy - tetromino[0].bottom) * SQUARE_SIZE_DEF;
+        torque.left = tetromino[0].left + SQUARE_SIZE_DEF;
+        torque.top = tetromino[0].top + SQUARE_SIZE_DEF;
+        torque.right = tetromino[0].right + SQUARE_SIZE_DEF;
+        torque.bottom = tetromino[0].bottom + SQUARE_SIZE_DEF;
 
-                tetromino[1].left = (newx - tetromino[1].left) * SQUARE_SIZE_DEF;
-                tetromino[1].top =  (newy - tetromino[1].top) * SQUARE_SIZE_DEF;
-                tetromino[1].right = (newx - tetromino[1].right) * SQUARE_SIZE_DEF;
-                tetromino[1].bottom = (newy - tetromino[1].bottom) * SQUARE_SIZE_DEF;
-
-                tetromino[2].left = (newx - tetromino[2].left) * SQUARE_SIZE_DEF;
-                tetromino[2].top = (newy - tetromino[2].top) * SQUARE_SIZE_DEF;
-                tetromino[2].right = (newx - tetromino[2].right) * SQUARE_SIZE_DEF;
-                tetromino[2].bottom = (newy - tetromino[2].bottom) * SQUARE_SIZE_DEF;
-
-                tetromino[3].left = (newx - tetromino[3].left) * SQUARE_SIZE_DEF;
-                tetromino[3].top = (newy - tetromino[3].top) * SQUARE_SIZE_DEF;
-                tetromino[3].right = (newx - tetromino[3].right) * SQUARE_SIZE_DEF;
-                tetromino[3].bottom = (newy - tetromino[3].bottom) * SQUARE_SIZE_DEF;
+        for(int i = 0; i < 4;i++){
+            x = tetromino[i].centerX()-torque.centerX();
+            y = tetromino[i].centerY()-torque.centerY();
+            radius = Math.sqrt(x*x+y*y);
+            if(radius==0) {
+                newx=0;
+                newy=0;
+            }
+            else{
+                current = Math.atan2(x, y);
+                rotate = current - 3.14159 / 2;
+                newx = (int) (radius * Math.cos(rotate));
+                newy = (int) (radius * Math.sin(rotate));
+                tetromino[i].left = (newx - tetromino[0].left) * SQUARE_SIZE_DEF;
+                tetromino[i].top = (newy - tetromino[0].top) * SQUARE_SIZE_DEF;
+                tetromino[i].right = (newx - tetromino[0].right) * SQUARE_SIZE_DEF;
+                tetromino[i].bottom = (newy - tetromino[0].bottom) * SQUARE_SIZE_DEF;
             }
         }
         //use sin-cos to rotate within a 3x3 space
     }
 
     public void rotatecounter(){
-        Rect temp[] = new Rect[3];
+        Rect torque = new Rect();
         double current=0, rotate, radius;
         int newx, newy, x, y;
-        int torquex =1, torquey = 1;
 
-        for(int i = 0; i < 3;i++){
-            for(int j = 0; j < 3; j++){
-                x = torquex-i;
-                y = torquey-j;
-                radius = Math.sqrt(x*x+y*y);
-                if(radius==0) {
-                    newx=i;
-                    newy=j;
-                }
-                else{
-                    current = Math.atan2((torquex - i), (torquey - j));
-                    rotate = current + 3.14159 / 2;
-                    newx = (int) (radius * Math.cos(rotate));
-                    newy = (int) (radius * Math.sin(rotate));
-                }
-                tetromino[0].left = (newx - tetromino[0].left) * SQUARE_SIZE_DEF;
-                tetromino[0].top = (newy - tetromino[0].top) * SQUARE_SIZE_DEF;
-                tetromino[0].right = (newx - tetromino[0].right) * SQUARE_SIZE_DEF;
-                tetromino[0].bottom = (newy - tetromino[0].bottom) * SQUARE_SIZE_DEF;
+        torque.left = tetromino[0].left + SQUARE_SIZE_DEF;
+        torque.top = tetromino[0].top + SQUARE_SIZE_DEF;
+        torque.right = tetromino[0].right + SQUARE_SIZE_DEF;
+        torque.bottom = tetromino[0].bottom + SQUARE_SIZE_DEF;
 
-                tetromino[1].left = (newx - tetromino[1].left) * SQUARE_SIZE_DEF;
-                tetromino[1].top =  (newy - tetromino[1].top) * SQUARE_SIZE_DEF;
-                tetromino[1].right = (newx - tetromino[1].right) * SQUARE_SIZE_DEF;
-                tetromino[1].bottom = (newy - tetromino[1].bottom) * SQUARE_SIZE_DEF;
-
-                tetromino[2].left = (newx - tetromino[2].left) * SQUARE_SIZE_DEF;
-                tetromino[2].top = (newy - tetromino[2].top) * SQUARE_SIZE_DEF;
-                tetromino[2].right = (newx - tetromino[2].right) * SQUARE_SIZE_DEF;
-                tetromino[2].bottom = (newy - tetromino[2].bottom) * SQUARE_SIZE_DEF;
-
-                tetromino[3].left = (newx - tetromino[3].left) * SQUARE_SIZE_DEF;
-                tetromino[3].top = (newy - tetromino[3].top) * SQUARE_SIZE_DEF;
-                tetromino[3].right = (newx - tetromino[3].right) * SQUARE_SIZE_DEF;
-                tetromino[3].bottom = (newy - tetromino[3].bottom) * SQUARE_SIZE_DEF;
+        for(int i = 0; i < 4;i++){
+            x = tetromino[i].centerX()-torque.centerX();
+            y = tetromino[i].centerY()-torque.centerY();
+            radius = Math.sqrt(x*x+y*y);
+            if(radius==0) {
+                newx=0;
+                newy=0;
             }
+            else{
+                current = Math.atan2(x, y);
+                rotate = current + 3.14159 / 2;
+                newx = (int) (radius * Math.cos(rotate));
+                newy = (int) (radius * Math.sin(rotate));
+                tetromino[i].left = (newx - tetromino[0].left) * SQUARE_SIZE_DEF;
+                tetromino[i].top = (newy - tetromino[0].top) * SQUARE_SIZE_DEF;
+                tetromino[i].right = (newx - tetromino[0].right) * SQUARE_SIZE_DEF;
+                tetromino[i].bottom = (newy - tetromino[0].bottom) * SQUARE_SIZE_DEF;
+            }
+
+
         }
         //use sin-cos to rotate within a 3x3 space
     }
