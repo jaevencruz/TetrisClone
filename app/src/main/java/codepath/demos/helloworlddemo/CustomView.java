@@ -330,12 +330,14 @@ public class CustomView extends View {
         for(int i = 0;i < 4; i++){
             rotatex = tetromino[i].centerX();
             rotatey = tetromino[i].centerY();
+            System.out.println("The old coords for block" + i + "are" + "(" + rotatex + "," + rotatey + ")");
             turnx = rotatex - pivotx;
             turny = rotatey - pivoty;
             t1 = 0 * turnx + 1 * turny;
             t2 = 1 * turnx + 0 * turny;
             finalx = pivotx + t1;
             finaly = pivoty + t2;
+            System.out.println("The new coords for block " + i + " are " + "(" + finalx + "," + finaly + ")");
             tetromino[1].left = finalx - (SQUARE_SIZE_DEF/2);
             tetromino[1].right = finalx + (SQUARE_SIZE_DEF/2);
             tetromino[1].top = finaly - (SQUARE_SIZE_DEF/2);
