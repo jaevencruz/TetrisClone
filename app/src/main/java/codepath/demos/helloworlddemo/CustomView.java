@@ -324,33 +324,22 @@ public class CustomView extends View {
         tetromino[3].bottom = tetromino[3].top + SQUARE_SIZE_DEF;
     }
     public void rotateclock(){
-        Rect torque = new Rect();
-        double current=0, rotate, radius;
-        int newx, newy, x, y;
-
-        torque.left = tetromino[0].left + SQUARE_SIZE_DEF;
-        torque.top = tetromino[0].top + SQUARE_SIZE_DEF;
-        torque.right = tetromino[0].right + SQUARE_SIZE_DEF;
-        torque.bottom = tetromino[0].bottom + SQUARE_SIZE_DEF;
-
-        for(int i = 0; i < 4;i++){
-            x = tetromino[i].centerX()-torque.centerX();
-            y = tetromino[i].centerY()-torque.centerY();
-            radius = Math.sqrt(x*x+y*y);
-            if(radius==0) {
-                newx=0;
-                newy=0;
-            }
-            else{
-                current = Math.atan2(x, y);
-                rotate = current - 3.14159 / 2;
-                newx = (int) (radius * Math.cos(rotate));
-                newy = (int) (radius * Math.sin(rotate));
-                tetromino[i].left = (newx - tetromino[0].left) * SQUARE_SIZE_DEF;
-                tetromino[i].top = (newy - tetromino[0].top) * SQUARE_SIZE_DEF;
-                tetromino[i].right = (newx - tetromino[0].right) * SQUARE_SIZE_DEF;
-                tetromino[i].bottom = (newy - tetromino[0].bottom) * SQUARE_SIZE_DEF;
-            }
+        int pivotx = tetromino[2].centerX();
+        int pivoty = tetromino[2].centerY();
+        int rotatex, rotatey, turnx, turny, t1, t2, finalx, finaly;
+        for(int i = 0;i < 4; i++){
+            rotatex = tetromino[i].centerX();
+            rotatey = tetromino[i].centerY();
+            turnx = rotatex - pivotx;
+            turny = rotatey - pivoty;
+            t1 = 0 * turnx + 1 * turny;
+            t2 = 1 * turnx + 0 * turny;
+            finalx = pivotx + t1;
+            finaly = pivoty + t2;
+            tetromino[1].left = finalx - (SQUARE_SIZE_DEF/2);
+            tetromino[1].right = finalx + (SQUARE_SIZE_DEF/2);
+            tetromino[1].top = finaly - (SQUARE_SIZE_DEF/2);
+            tetromino[1].bottom = finaly + (SQUARE_SIZE_DEF/2);
         }
         //use sin-cos to rotate within a 3x3 space
     }
