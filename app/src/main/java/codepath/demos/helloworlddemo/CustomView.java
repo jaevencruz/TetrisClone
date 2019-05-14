@@ -338,11 +338,12 @@ public class CustomView extends View {
             finalx = pivotx + t1;
             finaly = pivoty + t2;
             System.out.println("The new coords for block " + i + " are " + "(" + finalx + "," + finaly + ")");
-            tetromino[1].left = finalx - (SQUARE_SIZE_DEF/2);
-            tetromino[1].right = finalx + (SQUARE_SIZE_DEF/2);
-            tetromino[1].top = finaly - (SQUARE_SIZE_DEF/2);
-            tetromino[1].bottom = finaly + (SQUARE_SIZE_DEF/2);
+            tetromino[i].left = finalx - (SQUARE_SIZE_DEF/2);
+            tetromino[i].right = finalx + (SQUARE_SIZE_DEF/2);
+            tetromino[i].top = finaly - (SQUARE_SIZE_DEF/2);
+            tetromino[i].bottom = finaly + (SQUARE_SIZE_DEF/2);
         }
+        postInvalidate();
         //use sin-cos to rotate within a 3x3 space
     }
 
@@ -359,11 +360,12 @@ public class CustomView extends View {
             t2 = 1 * turnx + 0 * turny;
             finalx = pivotx + t1;
             finaly = pivoty + t2;
-            tetromino[1].left = finalx - (SQUARE_SIZE_DEF/2);
-            tetromino[1].right = finalx + (SQUARE_SIZE_DEF/2);
-            tetromino[1].top = finaly - (SQUARE_SIZE_DEF/2);
-            tetromino[1].bottom = finaly + (SQUARE_SIZE_DEF/2);
+            tetromino[i].left = finalx - (SQUARE_SIZE_DEF/2);
+            tetromino[i].right = finalx + (SQUARE_SIZE_DEF/2);
+            tetromino[i].top = finaly - (SQUARE_SIZE_DEF/2);
+            tetromino[i].bottom = finaly + (SQUARE_SIZE_DEF/2);
         }
+        postInvalidate();
         //use sin-cos to rotate within a 3x3 space
     }
 
