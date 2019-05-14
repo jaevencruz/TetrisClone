@@ -10,6 +10,7 @@ import android.view.WindowManager;
 public class MainActivity extends Activity {
 
 	private CustomView mCustomView;
+	private CustomSurfaceView mCustomSurfaceView;
 	//private MainThread thread;
 
 	//The onCreate function initializes stuff
@@ -21,7 +22,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_hello_world);
 
 
-		//CustomSurfaceView tv = new CustomSurfaceView(this.getBaseContext());
+		mCustomSurfaceView  = new CustomSurfaceView(this.getBaseContext());
+
+
 		//setContentView(tv); //Thread stuff gets initialized
 
 		mCustomView = (CustomView) findViewById(R.id.customView);
@@ -62,15 +65,26 @@ public class MainActivity extends Activity {
             }
         });
 
-
-
-		 int[][] tetrisSpace = new int[10][16];
-		 for(int i = 0; i < 10; i++){
-		 	for(int j = 0; j < 16; j++){
-		 		tetrisSpace[i][j] = 0;
-		 		System.out.println("The value of i: " + i + " The value of j: "+j);
+		findViewById(R.id.btn_rnd_piece).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.tetrominoPicker();
 			}
-		 }
+		});
+		findViewById(R.id.rotateclock).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.rotateclock();
+			}
+		});
+		findViewById(R.id.rotatecounter).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.rotatecounter();
+			}
+		});
+
+
 
 	}
 
