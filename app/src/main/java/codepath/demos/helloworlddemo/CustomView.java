@@ -23,6 +23,7 @@ public class CustomView extends View {
     private Rect [] tetromino;
     private Paint tGridPaint;
     private Paint dPaint;
+    public static RectPlayer rPlayer;
 
     public CustomView(Context context) {
         super(context);
@@ -44,12 +45,19 @@ public class CustomView extends View {
 
     //the init function is the place to initialize stuff, such as creating a new rectangle and such
     private void init(@Nullable AttributeSet set){
+
         Random tetrominoPicker = new Random();
         tetrisGrid = new Rect[16][10];
         tetromino = new Rect[4];
         dPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         tGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         tGridPaint.setColor(Color.LTGRAY);
+
+        rPlayer = new RectPlayer(tetromino,dPaint);
+        rPlayer.setPaint(dPaint);
+        rPlayer.initializeTetromino();
+        rPlayer.tetrominoPicker();
+
         //Initializes each rectangle in Tetromino array
         for(int i = 0; i < tetromino.length; i++){
            tetromino[i] = new Rect();
@@ -59,10 +67,19 @@ public class CustomView extends View {
         for(int i = 0; i < 16; i++){
             for(int j = 0; j < 10;j++) {
                 tetrisGrid[i][j] = new Rect();
-                tetrisGrid[i][j].left = j*(SQUARE_SIZE_DEF ) + 1;
-                tetrisGrid[i][j].top = i*(SQUARE_SIZE_DEF ) + 1;
-                tetrisGrid[i][j].right = tetrisGrid[i][j].left + SQUARE_SIZE_DEF;
-                tetrisGrid[i][j].bottom = tetrisGrid[i][j].top + SQUARE_SIZE_DEF;
+                if(i == 0 && j == 0) {
+                    tetrisGrid[i][j].left = j * (SQUARE_SIZE_DEF+1);
+                    tetrisGrid[i][j].top = i * (SQUARE_SIZE_DEF+1);
+                    tetrisGrid[i][j].right = tetrisGrid[i][j].left + SQUARE_SIZE_DEF;
+                    tetrisGrid[i][j].bottom = tetrisGrid[i][j].top + SQUARE_SIZE_DEF;
+                }
+                else{
+                    tetrisGrid[i][j].left = j * (SQUARE_SIZE_DEF+1);
+                    tetrisGrid[i][j].top = i * (SQUARE_SIZE_DEF+1);
+                    tetrisGrid[i][j].right = tetrisGrid[i][j].left + SQUARE_SIZE_DEF;
+                    tetrisGrid[i][j].bottom = tetrisGrid[i][j].top + SQUARE_SIZE_DEF;
+                }
+
             }
         }
         tetrominoPicker();
@@ -77,10 +94,11 @@ public class CustomView extends View {
             }
 
         }
-        for(int i = 0; i < tetromino.length; i++){
+        rPlayer.draw(canvas);
+        /*for(int i = 0; i < tetromino.length; i++){
             canvas.drawRect(tetromino[i], dPaint);
-        }
-
+        }*/
+        postInvalidate();
     }
 
     public void swapColor(){
@@ -244,12 +262,12 @@ public class CustomView extends View {
         tetromino[1].bottom = tetromino[1].top + SQUARE_SIZE_DEF;
 
         tetromino[2].left = 0;
-        tetromino[2].top = 2*(SQUARE_SIZE_DEF + 1);
+        tetromino[2].top = 2*(SQUARE_SIZE_DEF+1);
         tetromino[2].right = tetromino[2].left + SQUARE_SIZE_DEF ;
         tetromino[2].bottom = tetromino[2].top + SQUARE_SIZE_DEF;
 
         tetromino[3].left = 0;
-        tetromino[3].top = 3*(SQUARE_SIZE_DEF + 1);
+        tetromino[3].top = 3*(SQUARE_SIZE_DEF+1 );
         tetromino[3].right = tetromino[3].left + SQUARE_SIZE_DEF ;
         tetromino[3].bottom = tetromino[3].top + SQUARE_SIZE_DEF;
 
@@ -429,7 +447,7 @@ public class CustomView extends View {
     public void boundTetromino(){
         //This for loop checks if the rotation of the tetromino is out of bounds and offsets it accordingly to prevent it from going off grid.
         for(int i = 0; i<tetromino.length;i++){
-            if ((tetromino[i].right + SQUARE_SIZE_DEF )> 10*(SQUARE_SIZE_DEF+1)){
+            if ((tetromino[i].right + SQUARE_SIZE_DEF )> 10*(SQUARE_SIZE_DEF)){
                 moveLeft();
                 break;
             }
@@ -441,11 +459,19 @@ public class CustomView extends View {
                 moveDown();
                 break;
             }
-            else if ((tetromino[i].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF+1))){
+            else if ((tetromino[i].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF))){
                 moveUp();
                 break;
             }
         }
+    }
+
+    public void gridCheck(){
+            for(int i = 0; i<16; i++){
+                for(int j = 0; j < 10; j++){
+
+                }
+            }
     }
 
 }

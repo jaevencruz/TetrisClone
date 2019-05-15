@@ -40,47 +40,47 @@ public class MainActivity extends Activity {
 		findViewById(R.id.btn_move_down).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.moveDown();
+				mCustomView.rPlayer.moveDown();
 			}
 		});
 
 		findViewById(R.id.btn_move_right).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.moveRight();
+				mCustomView.rPlayer.moveRight();
 			}
 		});
 
 		findViewById(R.id.btn_move_up).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.moveUp();
+				mCustomView.rPlayer.moveUp();
 			}
 		});
 
         findViewById(R.id.btn_move_left).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCustomView.moveLeft();
+                mCustomView.rPlayer.moveLeft();
             }
         });
 
 		findViewById(R.id.btn_rnd_piece).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.tetrominoPicker();
+				mCustomView.rPlayer.tetrominoPicker();
 			}
 		});
 		findViewById(R.id.rotateclock).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.rotatecw();
+				mCustomView.rPlayer.rotatecw();
 			}
 		});
 		findViewById(R.id.rotatecounter).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.rotateccw();
+				mCustomView.rPlayer.rotateccw();
 			}
 		});
 
