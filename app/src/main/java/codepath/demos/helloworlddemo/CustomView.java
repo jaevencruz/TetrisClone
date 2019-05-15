@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import org.jetbrains.annotations.Nullable;
-import java.util.*;
+
 import java.util.Random;
 
 
@@ -19,7 +19,7 @@ public class CustomView extends View {
 
     private static final int SQUARE_SIZE_DEF = getScreenWidth()/16 ;
 
-    private Rect [][] tetrisGrid;
+    private Rect [][] tetrisGrid;  //Use this and make position
     private Rect [] tetromino;
     private Paint tGridPaint;
     private Paint dPaint;
@@ -59,8 +59,8 @@ public class CustomView extends View {
         for(int i = 0; i < 16; i++){
             for(int j = 0; j < 10;j++) {
                 tetrisGrid[i][j] = new Rect();
-                tetrisGrid[i][j].left = j*(SQUARE_SIZE_DEF + 1);
-                tetrisGrid[i][j].top = i*(SQUARE_SIZE_DEF + 1);
+                tetrisGrid[i][j].left = j*(SQUARE_SIZE_DEF ) + 1;
+                tetrisGrid[i][j].top = i*(SQUARE_SIZE_DEF ) + 1;
                 tetrisGrid[i][j].right = tetrisGrid[i][j].left + SQUARE_SIZE_DEF;
                 tetrisGrid[i][j].bottom = tetrisGrid[i][j].top + SQUARE_SIZE_DEF;
             }
@@ -323,7 +323,7 @@ public class CustomView extends View {
         tetromino[3].right = tetromino[3].left + SQUARE_SIZE_DEF ;
         tetromino[3].bottom = tetromino[3].top + SQUARE_SIZE_DEF;
     }
-    public void rotateclock(){
+    public void rotatecw(){
         int pivotx = tetromino[2].centerX();
         int pivoty = tetromino[2].centerY();
         int rotatex, rotatey, turnx, turny, t1, t2, finalx, finaly;
@@ -342,12 +342,14 @@ public class CustomView extends View {
             tetromino[i].right = finalx + (SQUARE_SIZE_DEF/2);
             tetromino[i].top = finaly - (SQUARE_SIZE_DEF/2);
             tetromino[i].bottom = finaly + (SQUARE_SIZE_DEF/2);
+
         }
+        boundTetromino();
         postInvalidate();
         //use sin-cos to rotate within a 3x3 space
     }
 
-    public void rotatecounter(){
+    public void rotateccw(){
         int pivotx = tetromino[2].centerX();
         int pivoty = tetromino[2].centerY();
         int rotatex, rotatey, turnx, turny, t1, t2, finalx, finaly;
@@ -365,6 +367,7 @@ public class CustomView extends View {
             tetromino[i].top = finaly - (SQUARE_SIZE_DEF/2);
             tetromino[i].bottom = finaly + (SQUARE_SIZE_DEF/2);
         }
+        boundTetromino();
         postInvalidate();
         //use sin-cos to rotate within a 3x3 space
     }
@@ -406,6 +409,43 @@ public class CustomView extends View {
             }
         }
         postInvalidate();
+    }
+
+    public void blockAtBottom(){
+        for(int a = 0; a<tetromino.length;a++){
+            if ((tetromino[a].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF+1))){
+                for(int i = 0; i < 16; i++){
+                    for(int j = 0; j < 10;j++) {
+                        tetrisGrid[i][j].left = j*(SQUARE_SIZE_DEF ) + 1;
+                        tetrisGrid[i][j].top = i*(SQUARE_SIZE_DEF ) + 1;
+                        tetrisGrid[i][j].right = tetrisGrid[i][j].left + SQUARE_SIZE_DEF;
+                        tetrisGrid[i][j].bottom = tetrisGrid[i][j].top + SQUARE_SIZE_DEF;
+                    }
+                }
+            }
+        }
+    }
+
+    public void boundTetromino(){
+        //This for loop checks if the rotation of the tetromino is out of bounds and offsets it accordingly to prevent it from going off grid.
+        for(int i = 0; i<tetromino.length;i++){
+            if ((tetromino[i].right + SQUARE_SIZE_DEF )> 10*(SQUARE_SIZE_DEF+1)){
+                moveLeft();
+                break;
+            }
+            else if ((tetromino[i].left - SQUARE_SIZE_DEF )< 0){
+                moveRight();
+                break;
+            }
+            else if ((tetromino[i].top - SQUARE_SIZE_DEF )< 0){
+                moveDown();
+                break;
+            }
+            else if ((tetromino[i].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF+1))){
+                moveUp();
+                break;
+            }
+        }
     }
 
 }
