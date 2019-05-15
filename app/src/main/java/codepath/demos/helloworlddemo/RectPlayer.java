@@ -49,7 +49,7 @@ public class RectPlayer implements GameObject {
         //Checks if block is at bottom and restricts movement there
         for(int i = 0; i<tetromino.length;i++){
             if ((tetromino[i].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF+1))){
-                return;
+                tetrominoPicker();
             }
         }
 

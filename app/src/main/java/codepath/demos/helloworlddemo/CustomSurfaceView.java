@@ -29,7 +29,6 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         super(context);
 
         getHolder().addCallback(this);
-        thread = new MainThread(getHolder(),this);
 
         setFocusable(true);
 

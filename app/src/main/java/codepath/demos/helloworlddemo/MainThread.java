@@ -7,13 +7,13 @@ public class MainThread extends Thread{
 
     private SurfaceHolder surfaceHolder;
     private CustomSurfaceView customSurfaceView;
+    private CustomView customView;
     private boolean running;
     public static Canvas canvas;
 
-    public MainThread(SurfaceHolder surfaceHolder, CustomSurfaceView customSurfaceView){
+    public MainThread(CustomView customView){
         super();
-        this.surfaceHolder = surfaceHolder;
-        this.customSurfaceView = customSurfaceView;
+        this.customView = customView;
     }
 
     public void setRunning(boolean isRunning){
@@ -24,30 +24,15 @@ public class MainThread extends Thread{
     public void run(){
 
         while(running){
-            canvas = null;
             try {
-                canvas = this.surfaceHolder.lockCanvas();
-                synchronized (surfaceHolder) {
-                    this.customSurfaceView.update();
-                    this.customSurfaceView.draw(canvas);
-                }
+
             } catch (Exception e){
             }
-            finally{
-                if(canvas!=null){
-                    try{
-                        surfaceHolder.unlockCanvasAndPost(canvas);
-                    }
-                    catch(Exception e){e.printStackTrace();}
-                }
-
-
-
 
             }
         }
-    }
 }
+
 
 
 
