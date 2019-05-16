@@ -6,12 +6,19 @@ import java.util.concurrent.TimeUnit;
 
 public class BackEnd extends Thread{
     public static Rect tetromino[];
+    public static RectPlayer tb = new RectPlayer();
 
+    public void run(){
+
+        synchronized (tetromino){
+            fall();
+        }
+    }
 
     public static void fall(){
         for(int i = 0; i < 5; i++) {
-            moveDown();
 
+            moveDown();
 
             System.out.println("Iterate second:" + (i+1));
             try {
@@ -29,7 +36,7 @@ public class BackEnd extends Thread{
         int SQUARE_SIZE_DEF = RectPlayer.getScreenWidth()/16 ;
         for(int i = 0; i<tetromino.length;i++){
             if ((tetromino[i].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF+1))){
-                return;
+                tb.tetrominoPicker();
             }
         }
 
@@ -39,6 +46,8 @@ public class BackEnd extends Thread{
             tetromino[i].bottom = tetromino[i].bottom + SQUARE_SIZE_DEF;
         }
     }
+
+
 
 
 }

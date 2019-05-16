@@ -9,7 +9,7 @@ import android.graphics.Rect;
 import java.util.Random;
 
 
-public class RectPlayer implements GameObject  {
+public class RectPlayer implements GameObject   {
     private Rect tetromino[] = new Rect[4];
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final int SQUARE_SIZE_DEF = getScreenWidth()/16 ;
@@ -17,6 +17,9 @@ public class RectPlayer implements GameObject  {
     public RectPlayer(Rect tetromino[], Paint paint) {
         this.tetromino = tetromino;
         this.paint = paint;
+    }
+    public RectPlayer(){
+
     }
 
     public RectPlayer(){
