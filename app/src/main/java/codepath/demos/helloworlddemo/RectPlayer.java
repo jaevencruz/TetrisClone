@@ -5,12 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.view.View;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
-import static codepath.demos.helloworlddemo.BackEnd.fall;
 
 
 public class RectPlayer implements GameObject  {
@@ -24,7 +20,10 @@ public class RectPlayer implements GameObject  {
     }
 
     public RectPlayer(){
-        
+    }
+
+    public void setBlock(Rect rect, int i){
+        tetromino[i] = rect;
     }
 
     public void initializeTetromino(){
@@ -79,7 +78,20 @@ public class RectPlayer implements GameObject  {
 
     public int colorRandom(){
         Random rnd = new Random();
-        return Color.argb(255,rnd.nextInt(256),rnd.nextInt(256),rnd.nextInt(256));
+        int numGen = rnd.nextInt(3);
+        if(numGen == 0){
+           return Color.GREEN;
+        }
+        else if(numGen == 1){
+            return Color.RED;
+        }
+        else if (numGen == 2){
+            return Color.BLUE;
+        }
+        else{
+            return Color.YELLOW;
+        }
+
     }
 
     public void moveRight(){
@@ -416,7 +428,7 @@ public class RectPlayer implements GameObject  {
         }
     }
 
-    public Rect tetrominoReturn(int i){
+    public Rect tetrominoBlockReturn(int i){
         if(i > 4){
             return tetromino[0];
         }
