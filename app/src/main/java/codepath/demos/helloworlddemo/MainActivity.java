@@ -86,7 +86,7 @@ public class MainActivity extends Activity {
 		findViewById(R.id.fall).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.rPlayer.fall();
+				mCustomView.rPlayer.fallout();
 			}
 		});
 
