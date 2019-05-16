@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
 				mCustomView.rPlayer.tetrominoPicker();
 			}
 		});
-		findViewById(R.id.rotateclock).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.fall).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				mCustomView.rPlayer.rotatecw();
@@ -83,7 +83,12 @@ public class MainActivity extends Activity {
 				mCustomView.rPlayer.rotateccw();
 			}
 		});
-
+		findViewById(R.id.fall).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.rPlayer.fallout();
+			}
+		});
 
 	}
 
@@ -93,5 +98,6 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_hello_world, menu);
 		return true;
 	}
+
 
 }

@@ -11,6 +11,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
@@ -98,6 +99,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         //Checks if block is at bottom and restricts movement there
         for(int i = 0; i<tetromino.length;i++){
             if ((tetromino[i].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF+1))){
+
                 return;
             }
         }
@@ -109,6 +111,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
         postInvalidate();
     }
+
 
 
     public void moveRight(){
