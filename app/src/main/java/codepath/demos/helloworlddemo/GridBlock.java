@@ -11,6 +11,7 @@ public class GridBlock implements GameObject{
     public GridBlock(){
     }
 
+    //Con
     public GridBlock(Rect rect, Paint paint){
             this.gridBlock = rect;
             this.tGridBlockPaint = paint;

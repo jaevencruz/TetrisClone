@@ -18,13 +18,19 @@ public class RectPlayer implements GameObject {
         this.paint = paint;
     }
 
+    public RectPlayer(){
+        
+    }
+
     public void initializeTetromino(){
         for(int i = 0; i < tetromino.length; i++){
             tetromino[i] = new Rect();
         }
     }
 
-
+    public Rect[] returnTetromino(){
+        return tetromino;
+    }
 
     @Override
     public void draw(Canvas canvas){
