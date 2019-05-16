@@ -21,7 +21,7 @@ public class CustomView extends View {
 
     private Rect [][] tetrisGrid;  //Use this and make position
     private Rect [] tetromino;
-    private RectPlayer [][] usedPieces;
+    private GridBlock [][] grid;
     private Paint tGridPaint;
     private Paint dPaint;
     public static RectPlayer rPlayer;
@@ -59,7 +59,9 @@ public class CustomView extends View {
         rPlayer.initializeTetromino();
         rPlayer.tetrominoPicker();
 
-        usedPieces = new RectPlayer[16][10];
+        grid = new GridBlock[16][10];
+
+
         //Initializes each rectangle in Tetromino array
         for(int i = 0; i < tetromino.length; i++){
            tetromino[i] = new Rect();
@@ -85,15 +87,31 @@ public class CustomView extends View {
 
             }
         }
+
+        for(int i = 0; i < 16; i++){
+            for(int j = 0; j < 10;j++) {
+                grid[i][j] = new GridBlock();
+                grid[i][j].initializeBlock();
+                grid[i][j].setPaint(tGridPaint);
+                if(i == 0 && j == 0) {
+                    grid[i][j].setRect(j * (SQUARE_SIZE_DEF+1),i * (SQUARE_SIZE_DEF+1),j * (SQUARE_SIZE_DEF+1)+SQUARE_SIZE_DEF,i * (SQUARE_SIZE_DEF+1)+SQUARE_SIZE_DEF);
+                }
+                else{
+                    grid[i][j].setRect(j * (SQUARE_SIZE_DEF+1),i * (SQUARE_SIZE_DEF+1),j * (SQUARE_SIZE_DEF+1)+SQUARE_SIZE_DEF,i * (SQUARE_SIZE_DEF+1)+SQUARE_SIZE_DEF);
+                }
+
+            }
+        }
         tetrominoPicker();
         dPaint.setColor(colorRandom());
+
     }
 
     @Override
     protected void onDraw(Canvas canvas){
         for(int i = 0; i < 16; i++){
             for(int j = 0; j < 10; j++){
-                canvas.drawRect(tetrisGrid[i][j],tGridPaint);
+                grid[i][j].draw(canvas);
             }
 
         }
@@ -472,6 +490,7 @@ public class CustomView extends View {
     public void gridCheck(){
             for(int i = 0; i<16; i++){
                 for(int j = 0; j < 10; j++){
+                    //tetrisGrid[i][j].getX();
                 }
             }
     }

@@ -399,6 +399,14 @@ public class RectPlayer implements GameObject {
         }
     }
 
+    public Rect tetrominoReturn(int i){
+        if(i > 4){
+            return tetromino[0];
+        }
+        return tetromino[i];
+    }
+
+
 
 
 
