@@ -10,7 +10,10 @@ import android.view.View;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public class RectPlayer implements GameObject {
+import static codepath.demos.helloworlddemo.BackEnd.fall;
+
+
+public class RectPlayer implements GameObject  {
     private Rect tetromino[] = new Rect[4];
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final int SQUARE_SIZE_DEF = getScreenWidth()/16 ;
@@ -61,21 +64,12 @@ public class RectPlayer implements GameObject {
             tetromino[i].bottom = tetromino[i].bottom + SQUARE_SIZE_DEF;
         }
     }
-    public synchronized void fall(){
-        for(int i = 0; i < 5; i++) {
-
-                moveDown();
-                System.out.println("Iterate second:" + (i+1));
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
-        }
+    public synchronized void fallout(){
+        BackEnd td = new BackEnd();
+        td.start();
 
     }
+
 
     public int colorRandom(){
         Random rnd = new Random();
