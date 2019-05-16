@@ -21,6 +21,7 @@ public class CustomView extends View {
 
     private Rect [][] tetrisGrid;  //Use this and make position
     private Rect [] tetromino;
+    private RectPlayer [][] usedPieces;
     private Paint tGridPaint;
     private Paint dPaint;
     public static RectPlayer rPlayer;
@@ -58,10 +59,12 @@ public class CustomView extends View {
         rPlayer.initializeTetromino();
         rPlayer.tetrominoPicker();
 
+        usedPieces = new RectPlayer[16][10];
         //Initializes each rectangle in Tetromino array
         for(int i = 0; i < tetromino.length; i++){
            tetromino[i] = new Rect();
         }
+
 
         //Initializes each rectangle in tetrisGrid
         for(int i = 0; i < 16; i++){
@@ -469,7 +472,6 @@ public class CustomView extends View {
     public void gridCheck(){
             for(int i = 0; i<16; i++){
                 for(int j = 0; j < 10; j++){
-
                 }
             }
     }
