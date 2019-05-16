@@ -5,8 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.View;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class RectPlayer implements GameObject {
     private Rect tetromino[] = new Rect[4];
@@ -58,6 +60,21 @@ public class RectPlayer implements GameObject {
 
             tetromino[i].bottom = tetromino[i].bottom + SQUARE_SIZE_DEF;
         }
+    }
+    public synchronized void fall(){
+        for(int i = 0; i < 5; i++) {
+
+                moveDown();
+                System.out.println("Iterate second:" + (i+1));
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+        }
+
     }
 
     public int colorRandom(){
