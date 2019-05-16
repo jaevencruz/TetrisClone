@@ -487,10 +487,14 @@ public class CustomView extends View {
         }
     }
 
-    public void gridCheck(){
+    public void gridCheck(RectPlayer rPlayer){
+            int gridX = 0;
+            int gridY = 0;
             for(int i = 0; i<16; i++){
                 for(int j = 0; j < 10; j++){
-                    //tetrisGrid[i][j].getX();
+                    gridX = grid[i][j].getX();
+                    gridY = grid[i][j].getY();
+                    //if
                 }
             }
     }

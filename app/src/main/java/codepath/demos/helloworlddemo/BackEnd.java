@@ -6,10 +6,22 @@ import java.util.concurrent.TimeUnit;
 
 public class BackEnd extends Thread{
     public static Rect tetromino[];
+    private GridBlock [][] grid;
     public static RectPlayer tb = new RectPlayer();
 
-    public void run(){
+    public BackEnd(RectPlayer player, GridBlock [][] grid){
+        this.tb = player;
+        this.grid = grid;
+    }
 
+    public BackEnd(){
+    }
+
+
+    public void run(){
+        if(tetromino == null){
+            initializeRectArray();
+        }
         synchronized (tetromino){
             fall();
         }
@@ -31,6 +43,7 @@ public class BackEnd extends Thread{
         }
 
     }
+
     public static void moveDown(){
         //Checks if block is at bottom and restricts movement there
         int SQUARE_SIZE_DEF = RectPlayer.getScreenWidth()/16 ;
@@ -47,7 +60,13 @@ public class BackEnd extends Thread{
         }
     }
 
-
-
+    public static void initializeRectArray(){
+        if(tetromino == null){
+            tetromino = new Rect[4];
+            for(int i = 0; i < tetromino.length;i++){
+               tetromino[i] = new Rect();
+            }
+        }
+    }
 
 }

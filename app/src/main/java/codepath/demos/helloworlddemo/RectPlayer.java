@@ -22,8 +22,7 @@ public class RectPlayer implements GameObject   {
 
     }
 
-    public RectPlayer(){
-    }
+
 
     public void setBlock(Rect rect, int i){
         tetromino[i] = rect;

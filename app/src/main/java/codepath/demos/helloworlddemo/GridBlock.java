@@ -11,7 +11,7 @@ public class GridBlock implements GameObject{
     public GridBlock(){
     }
 
-    //Con
+    //Constructor
     public GridBlock(Rect rect, Paint paint){
             this.gridBlock = rect;
             this.tGridBlockPaint = paint;
@@ -19,6 +19,10 @@ public class GridBlock implements GameObject{
 
     public void setPaint(Paint paint){
         this.tGridBlockPaint = paint;
+    }
+
+    public Paint returnPaint(){
+        return this.tGridBlockPaint;
     }
 
     public void setRect(int left, int top, int right, int bottom){
@@ -30,6 +34,10 @@ public class GridBlock implements GameObject{
 
     public void setRect(Rect r){
         this.gridBlock = r;
+    }
+
+    public Rect returnRect(){
+        return this.gridBlock;
     }
 
     public void initializeBlock(){
@@ -49,9 +57,7 @@ public class GridBlock implements GameObject{
 
     }
 
-    public Rect returnRect(){
-        return this.gridBlock;
-    }
+
 
     public int left(){
         return this.gridBlock.left;
@@ -67,6 +73,14 @@ public class GridBlock implements GameObject{
 
     public int top(){
         return this.gridBlock.top;
+    }
+
+    public int getX(){
+        return gridBlock.centerX();
+    }
+
+    public int getY(){
+        return gridBlock.centerY();
     }
 
 
