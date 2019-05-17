@@ -74,12 +74,6 @@ public class MainActivity extends Activity {
 				mCustomView.rPlayer.tetrominoPicker();
 			}
 		});
-		findViewById(R.id.fall).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				mCustomView.rPlayer.rotatecw();
-			}
-		});
 		findViewById(R.id.rotatecounter).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

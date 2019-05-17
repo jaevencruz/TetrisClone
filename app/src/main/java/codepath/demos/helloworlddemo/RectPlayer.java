@@ -359,33 +359,56 @@ public class RectPlayer implements GameObject   {
     //Randomly picks a piece to initialize
     public void tetrominoPicker(){
         Random tPicker = new Random();
+        int num = tPicker.nextInt(7);
+        paint.setColor(colorRandom());
         while(true){
-            if(tPicker.nextInt(7)== 0){
+            if(num== 0){
                 oBlockInit();
+                for(int i = 0; i<4;i++){
+                    moveRight();
+                }
                 break;
             }
-            else if(tPicker.nextInt(7) == 1){
+            else if(num == 1){
                 iBlockInit();
+                for(int i = 0; i<4;i++){
+                    moveRight();
+                }
                 break;
             }
-            else if(tPicker.nextInt(7) == 2){
+            else if(num == 2){
                 sBlockInit();
+                for(int i = 0; i<4;i++){
+                    moveRight();
+                }
                 break;
             }
-            else if(tPicker.nextInt(7) == 3){
+            else if(num == 3){
                 zBlockInit();
+                for(int i = 0; i<4;i++){
+                    moveRight();
+                }
                 break;
             }
-            else if(tPicker.nextInt(7) == 4){
+            else if(num == 4){
                 lBlockInit();
+                for(int i = 0; i<4;i++){
+                    moveRight();
+                }
                 break;
             }
-            else if(tPicker.nextInt(7) == 5){
+            else if(num == 5){
                 jBlockInit();
+                for(int i = 0; i<4;i++){
+                    moveRight();
+                }
                 break;
             }
-            else if(tPicker.nextInt(7) == 6){
+            else if(num == 6){
                 tBlockInit();
+                for(int i = 0; i<3;i++){
+                    moveRight();
+                }
                 break;
             }
             else{
