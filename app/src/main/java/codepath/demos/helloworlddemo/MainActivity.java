@@ -22,10 +22,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_hello_world);
 
 
-		mCustomSurfaceView  = new CustomSurfaceView(this.getBaseContext());
+		//mCustomSurfaceView  = new CustomSurfaceView(this.getBaseContext());
 
-
-		//setContentView(tv); //Thread stuff gets initialized
+		//setContentView(mCustomSurfaceView);
 
 		mCustomView = (CustomView) findViewById(R.id.customView);
 

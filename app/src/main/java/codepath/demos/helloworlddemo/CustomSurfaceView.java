@@ -11,20 +11,18 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
 
     private static final int SQUARE_SIZE_DEF = getScreenWidth()/16 ;
 
-    private Rect [][] tetrisGrid;
+    private Rect [][] tetrisGrid;  //Use this and make position
     private Rect [] tetromino;
+    private GridBlock [][] grid;
     private Paint tGridPaint;
     private Paint dPaint;
-
-    private int mSquareColor;
-    private int mSquareSize;
+    public static RectPlayer rPlayer;
 
     public CustomSurfaceView(Context context){
         super(context);
@@ -44,7 +42,63 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     //Starts Game loop
     @Override
     public void surfaceCreated(SurfaceHolder holder){
+        Random tetrominoPicker = new Random();
+        tetrisGrid = new Rect[16][10];
+        tetromino = new Rect[4];
+        dPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        tGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        tGridPaint.setColor(Color.LTGRAY);
 
+        rPlayer = new RectPlayer(tetromino,dPaint);
+        rPlayer.setPaint(dPaint);
+        rPlayer.initializeTetromino();
+        rPlayer.tetrominoPicker();
+
+        grid = new GridBlock[16][10];
+
+
+        //Initializes each rectangle in Tetromino array
+        for(int i = 0; i < tetromino.length; i++){
+            tetromino[i] = new Rect();
+        }
+
+
+        //Initializes each rectangle in tetrisGrid
+        for(int i = 0; i < 16; i++){
+            for(int j = 0; j < 10;j++) {
+                tetrisGrid[i][j] = new Rect();
+                if(i == 0 && j == 0) {
+                    tetrisGrid[i][j].left = j * (SQUARE_SIZE_DEF+1);
+                    tetrisGrid[i][j].top = i * (SQUARE_SIZE_DEF+1);
+                    tetrisGrid[i][j].right = tetrisGrid[i][j].left + SQUARE_SIZE_DEF;
+                    tetrisGrid[i][j].bottom = tetrisGrid[i][j].top + SQUARE_SIZE_DEF;
+                }
+                else{
+                    tetrisGrid[i][j].left = j * (SQUARE_SIZE_DEF+1);
+                    tetrisGrid[i][j].top = i * (SQUARE_SIZE_DEF+1);
+                    tetrisGrid[i][j].right = tetrisGrid[i][j].left + SQUARE_SIZE_DEF;
+                    tetrisGrid[i][j].bottom = tetrisGrid[i][j].top + SQUARE_SIZE_DEF;
+                }
+
+            }
+        }
+
+        for(int i = 0; i < 16; i++){
+            for(int j = 0; j < 10;j++) {
+                grid[i][j] = new GridBlock();
+                grid[i][j].initializeBlock();
+                grid[i][j].setPaint(tGridPaint);
+                if(i == 0 && j == 0) {
+                    grid[i][j].setRect(j * (SQUARE_SIZE_DEF+1),i * (SQUARE_SIZE_DEF+1),j * (SQUARE_SIZE_DEF+1)+SQUARE_SIZE_DEF,i * (SQUARE_SIZE_DEF+1)+SQUARE_SIZE_DEF);
+                }
+                else{
+                    grid[i][j].setRect(j * (SQUARE_SIZE_DEF+1),i * (SQUARE_SIZE_DEF+1),j * (SQUARE_SIZE_DEF+1)+SQUARE_SIZE_DEF,i * (SQUARE_SIZE_DEF+1)+SQUARE_SIZE_DEF);
+                }
+
+            }
+        }
+        tetrominoPicker();
+        dPaint.setColor(colorRandom());
     }
 
     //Stops Game loop
@@ -78,16 +132,19 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     }
 
     @Override
-    public void onDraw(Canvas canvas){
-        dPaint.setColor(colorRandom());
+    protected void onDraw(Canvas canvas){
+        for(int i = 0; i < 16; i++){
+            for(int j = 0; j < 10; j++){
+                grid[i][j].draw(canvas);
+            }
 
+        }
+        rPlayer.draw(canvas);
+        /*for(int i = 0; i < tetromino.length; i++){
+            canvas.drawRect(tetromino[i], dPaint);
+        }*/
+        postInvalidate();
 
-
-    }
-
-    public int colorRandom(){
-        Random rnd = new Random();
-        return Color.argb(255,rnd.nextInt(256),rnd.nextInt(256),rnd.nextInt(256));
     }
 
     public void swapColor(){
@@ -99,7 +156,6 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         //Checks if block is at bottom and restricts movement there
         for(int i = 0; i<tetromino.length;i++){
             if ((tetromino[i].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF+1))){
-
                 return;
             }
         }
@@ -112,7 +168,22 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         postInvalidate();
     }
 
-
+    public int colorRandom(){
+        Random rnd = new Random();
+        int numGen = rnd.nextInt(3);
+        if(numGen == 0){
+            return Color.GREEN;
+        }
+        else if(numGen == 1){
+            return Color.RED;
+        }
+        else if (numGen == 2){
+            return Color.BLUE;
+        }
+        else{
+            return Color.YELLOW;
+        }
+    }
 
     public void moveRight(){
         //Checks if block is at right corner and restricts movement there
@@ -249,12 +320,12 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         tetromino[1].bottom = tetromino[1].top + SQUARE_SIZE_DEF;
 
         tetromino[2].left = 0;
-        tetromino[2].top = 2*(SQUARE_SIZE_DEF + 1);
+        tetromino[2].top = 2*(SQUARE_SIZE_DEF+1);
         tetromino[2].right = tetromino[2].left + SQUARE_SIZE_DEF ;
         tetromino[2].bottom = tetromino[2].top + SQUARE_SIZE_DEF;
 
         tetromino[3].left = 0;
-        tetromino[3].top = 3*(SQUARE_SIZE_DEF + 1);
+        tetromino[3].top = 3*(SQUARE_SIZE_DEF+1 );
         tetromino[3].right = tetromino[3].left + SQUARE_SIZE_DEF ;
         tetromino[3].bottom = tetromino[3].top + SQUARE_SIZE_DEF;
 
@@ -328,29 +399,33 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         tetromino[3].right = tetromino[3].left + SQUARE_SIZE_DEF ;
         tetromino[3].bottom = tetromino[3].top + SQUARE_SIZE_DEF;
     }
-    public void rotateclock(){
+    public void rotatecw(){
         int pivotx = tetromino[2].centerX();
         int pivoty = tetromino[2].centerY();
         int rotatex, rotatey, turnx, turny, t1, t2, finalx, finaly;
         for(int i = 0;i < 4; i++){
             rotatex = tetromino[i].centerX();
             rotatey = tetromino[i].centerY();
+            System.out.println("The old coords for block" + i + "are" + "(" + rotatex + "," + rotatey + ")");
             turnx = rotatex - pivotx;
             turny = rotatey - pivoty;
             t1 = 0 * turnx + 1 * turny;
             t2 = 1 * turnx + 0 * turny;
             finalx = pivotx + t1;
             finaly = pivoty + t2;
-            tetromino[1].left = finalx - (SQUARE_SIZE_DEF/2);
-            tetromino[1].right = finalx + (SQUARE_SIZE_DEF/2);
-            tetromino[1].top = finaly - (SQUARE_SIZE_DEF/2);
-            tetromino[1].bottom = finaly + (SQUARE_SIZE_DEF/2);
+            System.out.println("The new coords for block " + i + " are " + "(" + finalx + "," + finaly + ")");
+            tetromino[i].left = finalx - (SQUARE_SIZE_DEF/2);
+            tetromino[i].right = finalx + (SQUARE_SIZE_DEF/2);
+            tetromino[i].top = finaly - (SQUARE_SIZE_DEF/2);
+            tetromino[i].bottom = finaly + (SQUARE_SIZE_DEF/2);
+
         }
+        boundTetromino();
         postInvalidate();
         //use sin-cos to rotate within a 3x3 space
     }
 
-    public void rotatecounter(){
+    public void rotateccw(){
         int pivotx = tetromino[2].centerX();
         int pivoty = tetromino[2].centerY();
         int rotatex, rotatey, turnx, turny, t1, t2, finalx, finaly;
@@ -363,11 +438,12 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
             t2 = 1 * turnx + 0 * turny;
             finalx = pivotx + t1;
             finaly = pivoty + t2;
-            tetromino[1].left = finalx - (SQUARE_SIZE_DEF/2);
-            tetromino[1].right = finalx + (SQUARE_SIZE_DEF/2);
-            tetromino[1].top = finaly - (SQUARE_SIZE_DEF/2);
-            tetromino[1].bottom = finaly + (SQUARE_SIZE_DEF/2);
+            tetromino[i].left = finalx - (SQUARE_SIZE_DEF/2);
+            tetromino[i].right = finalx + (SQUARE_SIZE_DEF/2);
+            tetromino[i].top = finaly - (SQUARE_SIZE_DEF/2);
+            tetromino[i].bottom = finaly + (SQUARE_SIZE_DEF/2);
         }
+        boundTetromino();
         postInvalidate();
         //use sin-cos to rotate within a 3x3 space
     }
@@ -410,5 +486,48 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
         postInvalidate();
     }
+
+
+    public void boundTetromino(){
+        //This for loop checks if the rotation of the tetromino is out of bounds and offsets it accordingly to prevent it from going off grid.
+        for(int i = 0; i<tetromino.length;i++){
+            if ((tetromino[i].right + SQUARE_SIZE_DEF )> 10*(SQUARE_SIZE_DEF)){
+                moveLeft();
+                break;
+            }
+            else if ((tetromino[i].left - SQUARE_SIZE_DEF )< 0){
+                moveRight();
+                break;
+            }
+            else if ((tetromino[i].top - SQUARE_SIZE_DEF )< 0){
+                moveDown();
+                break;
+            }
+            else if ((tetromino[i].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF))){
+                moveUp();
+                break;
+            }
+        }
+    }
+
+    public void gridCheck(RectPlayer rPlayer){
+        int gridX = 0;
+        int gridY = 0;
+        Paint tempPaint = rPlayer.returnPaint();
+        Rect[] tempRectArray;
+        tempRectArray = rPlayer.returnTetromino();
+        for(int i = 0; i<16; i++){
+            for(int j = 0; j < 10; j++){
+                for(int k = 0; k < tempRectArray.length; k++) {
+                    gridX = grid[i][j].getX();
+                    gridY = grid[i][j].getY();
+                    if (tempRectArray[k].contains(gridX,gridY) == true){
+                        grid[i][j].setPaint(tempPaint);
+                    }
+                }
+            }
+        }
+    }
+
 }
 

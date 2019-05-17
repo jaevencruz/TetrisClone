@@ -19,10 +19,11 @@ public class RectPlayer implements GameObject   {
         this.paint = paint;
     }
     public RectPlayer(){
-
     }
 
-
+    public Paint returnPaint(){
+        return this.paint;
+    }
 
     public void setBlock(Rect rect, int i){
         tetromino[i] = rect;
@@ -57,20 +58,7 @@ public class RectPlayer implements GameObject   {
     }
 
 
-    public void moveDown(){
-        //Checks if block is at bottom and restricts movement there
-        for(int i = 0; i<tetromino.length;i++){
-            if ((tetromino[i].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF+1))){
-                tetrominoPicker();
-            }
-        }
 
-        for(int i = 0; i < tetromino.length; i++) {
-            tetromino[i].top = tetromino[i].top + SQUARE_SIZE_DEF;
-
-            tetromino[i].bottom = tetromino[i].bottom + SQUARE_SIZE_DEF;
-        }
-    }
     public synchronized void fallout(){
         BackEnd td = new BackEnd();
         td.start();
@@ -98,11 +86,11 @@ public class RectPlayer implements GameObject   {
 
     public void moveRight(){
         //Checks if block is at right corner and restricts movement there
-        for(int i = 0; i<tetromino.length;i++){
-            if ((tetromino[i].right + SQUARE_SIZE_DEF )> 10*(SQUARE_SIZE_DEF+1)){
+        /*for(int i = 0; i<tetromino.length;i++){
+            if ((tetromino[i].centerX() + SQUARE_SIZE_DEF )> 10*(SQUARE_SIZE_DEF+1)){
                 return;
             }
-        }
+        }*/
         for(int i = 0; i < tetromino.length; i++) {
             tetromino[i].left = tetromino[i].left + SQUARE_SIZE_DEF;
 
@@ -112,11 +100,11 @@ public class RectPlayer implements GameObject   {
 
     public void moveLeft(){
         //Checks if block is at left corner and restricts movement there
-        for(int i = 0; i<tetromino.length;i++){
+        /*for(int i = 0; i<tetromino.length;i++){
             if ((tetromino[i].left - SQUARE_SIZE_DEF )< 0){
                 return;
             }
-        }
+        }*/
         for(int i = 0; i < tetromino.length; i++) {
             tetromino[i].left = tetromino[i].left - SQUARE_SIZE_DEF;
 
@@ -126,15 +114,29 @@ public class RectPlayer implements GameObject   {
 
     public void moveUp(){
         //Checks if block is at the top and restricts movement there
-        for(int i = 0; i<tetromino.length;i++){
+        /*for(int i = 0; i<tetromino.length;i++){
             if ((tetromino[i].top - SQUARE_SIZE_DEF )< 0){
                 return;
             }
-        }
+        }*/
         for(int i = 0; i < tetromino.length; i++) {
             tetromino[i].top = tetromino[i].top - SQUARE_SIZE_DEF;
 
             tetromino[i].bottom = tetromino[i].bottom - SQUARE_SIZE_DEF;
+        }
+    }
+
+    public void moveDown(){
+        //Checks if block is at bottom and restricts movement there
+        /*for(int i = 0; i<tetromino.length;i++){
+            if ((tetromino[i].bottom)> (16*(SQUARE_SIZE_DEF+1))){
+                tetrominoPicker();
+            }
+        }*/
+        for(int i = 0; i < tetromino.length; i++) {
+            tetromino[i].top = tetromino[i].top + SQUARE_SIZE_DEF;
+
+            tetromino[i].bottom = tetromino[i].bottom + SQUARE_SIZE_DEF;
         }
     }
 
@@ -393,38 +395,25 @@ public class RectPlayer implements GameObject   {
 
     }
 
-    /*public void blockAtBottom(){
-        for(int a = 0; a<tetromino.length;a++){
-            if ((tetromino[a].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF+1))){
-                for(int i = 0; i < 16; i++){
-                    for(int j = 0; j < 10;j++) {
-                        tetrisGrid[i][j].left = j*(SQUARE_SIZE_DEF ) + 1;
-                        tetrisGrid[i][j].top = i*(SQUARE_SIZE_DEF ) + 1;
-                        tetrisGrid[i][j].right = tetrisGrid[i][j].left + SQUARE_SIZE_DEF;
-                        tetrisGrid[i][j].bottom = tetrisGrid[i][j].top + SQUARE_SIZE_DEF;
-                    }
-                }
-            }
-        }
-    }*/
+
 
     public void boundTetromino(){
         //This for loop checks if the rotation of the tetromino is out of bounds and offsets it accordingly to prevent it from going off grid.
         for(int i = 0; i<tetromino.length;i++){
-            if ((tetromino[i].right + SQUARE_SIZE_DEF )> 10*(SQUARE_SIZE_DEF)){
+            if(tetromino[i].centerX() > (10*SQUARE_SIZE_DEF)){
                 moveLeft();
                 break;
             }
-            else if ((tetromino[i].left - SQUARE_SIZE_DEF )< 0){
-                moveRight();
-                break;
-            }
-            else if ((tetromino[i].top - SQUARE_SIZE_DEF )< 0){
+            else if (tetromino[i].centerY() < 0){
                 moveDown();
                 break;
             }
-            else if ((tetromino[i].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF))){
+            else if (tetromino[i].centerY() > 16*SQUARE_SIZE_DEF){
                 moveUp();
+                break;
+            }
+            else if (tetromino[i].centerX() < 0){
+                moveRight();
                 break;
             }
         }
@@ -436,9 +425,6 @@ public class RectPlayer implements GameObject   {
         }
         return tetromino[i];
     }
-
-
-
 
 
 }

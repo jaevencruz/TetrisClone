@@ -21,9 +21,17 @@ public class GridBlock implements GameObject{
         this.tGridBlockPaint = paint;
     }
 
+    public void setPaint(int color){
+        Paint temp = new Paint();
+        temp.setColor(color);
+        this.tGridBlockPaint = temp;
+    }
+
     public Paint returnPaint(){
         return this.tGridBlockPaint;
     }
+
+
 
     public void setRect(int left, int top, int right, int bottom){
         this.gridBlock.left = left;
@@ -56,7 +64,6 @@ public class GridBlock implements GameObject{
     public void update() {
 
     }
-
 
 
     public int left(){
