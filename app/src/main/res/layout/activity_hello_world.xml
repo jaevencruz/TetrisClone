@@ -18,17 +18,6 @@
 
 
     <Button
-        android:id="@+id/rotateclock2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="-4dp"
-        android:layout_marginBottom="590dp"
-        android:text="Rotate Clockwise" />
-
-    <Button
         android:id="@+id/btn_swap_color"
         style="@android:style/Widget.Holo.Button"
         android:layout_width="wrap_content"
@@ -103,9 +92,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="-31dp"
-        android:layout_marginBottom="526dp"
-        android:text="Rotate CounterClock" />
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="101dp"
+        android:text="Rotate" />
 
     <Button
         android:id="@+id/fall"
@@ -117,6 +106,25 @@
         android:layout_marginEnd="52dp"
         android:layout_marginBottom="376dp"
         android:text="Fall" />
+
+    <Button
+        android:id="@+id/rst_grid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="327dp"
+        android:layout_marginBottom="163dp"
+        android:text="Reset" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="196dp"
+        android:layout_marginBottom="164dp" />
 
 
 </RelativeLayout>

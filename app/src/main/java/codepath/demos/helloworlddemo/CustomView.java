@@ -24,6 +24,7 @@ public class CustomView extends View {
     private Paint tGridPaint;
     private Paint dPaint;
     public static RectPlayer rPlayer;
+    private int score = 0;
 
     public CustomView(Context context) {
         super(context);
@@ -49,21 +50,17 @@ public class CustomView extends View {
         Random tetrominoPicker = new Random();
         tetromino = new Rect[4];
         dPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        dPaint.setColor(colorRandom());
         tGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         tGridPaint.setColor(Color.LTGRAY);
 
         rPlayer = new RectPlayer(tetromino,dPaint);
-        rPlayer.setPaint(dPaint);
+
         rPlayer.initializeTetromino();
         rPlayer.tetrominoPicker();
 
         grid = new GridBlock[16][10];
 
-
-        //Initializes each rectangle in Tetromino array
-        for(int i = 0; i < tetromino.length; i++){
-           tetromino[i] = new Rect();
-        }
 
 
         for(int i = 0; i < 16; i++){
@@ -80,14 +77,15 @@ public class CustomView extends View {
 
             }
         }
-        tetrominoPicker();
-        dPaint.setColor(colorRandom());
+
+
 
     }
 
     @Override
     protected void onDraw(Canvas canvas){
         clearRow();
+        collisionDetection(rPlayer);
         gridBottomCheck(rPlayer);
         rPlayer.boundTetromino();
         for(int i = 0; i < 16; i++){
@@ -278,6 +276,44 @@ public class CustomView extends View {
             postInvalidate();
     }
 
+    public void collisionDetection(RectPlayer rPlayer){
+        int gridX;
+        int gridY;
+        boolean collision = false;
+        Paint tempPaint = rPlayer.returnPaint();
+        Rect[] tempRectArray;
+        tempRectArray = rPlayer.returnTetromino();
+        for(int i = 0; i<16; i++){
+            for(int j = 0; j < 10; j++){
+                for(int k = 0; k < tempRectArray.length; k++) {
+                    gridX = grid[i][j].getX();
+                    gridY = grid[i][j].getY();
+                    if (tempRectArray[k].contains(gridX,gridY) == true && grid[i][j].returnPaint().getColor() != Color.LTGRAY){
+                        collision = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if(collision == true){
+            moveUp(tempRectArray);
+            for(int i = 0; i<16; i++){
+                for(int j = 0; j < 10; j++){
+                    for(int k = 0; k < tempRectArray.length; k++) {
+                        gridX = grid[i][j].getX();
+                        gridY = grid[i][j].getY();
+                        if (tempRectArray[k].contains(gridX,gridY) == true){
+                            grid[i][j].setPaint(tempPaint);
+                        }
+                    }
+                }
+            }
+            rPlayer.tetrominoPicker();
+        }
+
+        postInvalidate();
+    }
+
     //Able to clear a row but does not move everything down
     public void clearRow(){
         //Full is initially true.  Guilty until proven innocent.
@@ -294,6 +330,7 @@ public class CustomView extends View {
                 for(int k = 0; k < 10; k++){
                     grid[i][k].setPaint(Color.LTGRAY);
                 }
+                score += 100;
             }
             full = true;
         }
@@ -308,6 +345,8 @@ public class CustomView extends View {
         }
         return false;
     }
+
+
 
     //Initializes Z block
     public void zBlockInit(){
@@ -523,6 +562,22 @@ public class CustomView extends View {
         //use sin-cos to rotate within a 3x3 space
     }
 
+    public void resetGrid(){
+        for(int i =0; i<16;i++){
+            for(int j = 0; j<10;j++){
+                grid[i][j].setPaint(Color.LTGRAY);
+            }
+        }
+    }
+
+    public int returnScore(){
+        return this.score;
+    }
+
+    public void scoreUp(){
+        score += 100;
+        System.out.println(score);
+    }
 }
 
 

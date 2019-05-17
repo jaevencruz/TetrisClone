@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -27,7 +28,10 @@ public class MainActivity extends Activity {
 		//setContentView(mCustomSurfaceView);
 
 		mCustomView = (CustomView) findViewById(R.id.customView);
+		TextView tv = (TextView) findViewById(R.id.textView);
 
+		String message = "Score: " + mCustomView.returnScore();
+		tv.setText(message);
 
 		findViewById(R.id.btn_swap_color).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -85,7 +89,13 @@ public class MainActivity extends Activity {
 		findViewById(R.id.fall).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.rPlayer.fallout();
+				mCustomView.scoreUp();
+			}
+		});
+		findViewById(R.id.rst_grid).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.resetGrid();
 			}
 		});
 
