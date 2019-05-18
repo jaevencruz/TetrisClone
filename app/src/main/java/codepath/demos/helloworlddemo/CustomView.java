@@ -25,6 +25,7 @@ public class CustomView extends View {
     private GridBlock [][] grid;
     private Paint tGridPaint;
     private Paint dPaint;
+    private Paint tPaint;
     private Paint textPaint;
     private Paint prevTet;
     public static RectPlayer rPlayer;
@@ -63,8 +64,10 @@ public class CustomView extends View {
         dPaint.setColor(colorRandom());
         tGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         tGridPaint.setColor(Color.LTGRAY);
+        tPaint = new Paint();
+        tPaint.setColor(colorRandom());
 
-        rPlayer = new RectPlayer(tetrominoInit,dPaint);
+        rPlayer = new RectPlayer(tetrominoInit,tPaint);
 
         rPlayer.initializeTetromino();
         rPlayer.tetrominoPicker();
@@ -247,9 +250,9 @@ public class CustomView extends View {
     public void gridBottomCheck(RectPlayer rPlayer){
             int gridX = 0;
             int gridY = 0;
+            int color = rPlayer.returnPaint().getColor();
             boolean resetRPlayer = false;
             boolean underGrid = false;
-            Paint tempPaint = rPlayer.returnPaint();
             Rect[] tempRectArray;
             tempRectArray = rPlayer.returnTetromino();
             if(bottomCheck(tempRectArray) == true){
@@ -262,7 +265,7 @@ public class CustomView extends View {
                         gridX = grid[i][j].getX();
                         gridY = grid[i][j].getY();
                         if (tempRectArray[k].contains(gridX,gridY) == true && underGrid == true){
-                            grid[i][j].setPaint(tempPaint);
+                            grid[i][j].setPaint(color);
                             resetRPlayer = true;
                         }
                     }
@@ -280,7 +283,7 @@ public class CustomView extends View {
         int gridX;
         int gridY;
         boolean collision = false;
-        Paint tempPaint = rPlayer.returnPaint();
+        int color = rPlayer.returnPaint().getColor();
         Rect[] tempRectArray;
         tempRectArray = rPlayer.returnTetromino();
         for(int i = 0; i<16; i++){
@@ -312,7 +315,7 @@ public class CustomView extends View {
                         gridX = grid[i][j].getX();
                         gridY = grid[i][j].getY();
                         if (tempRectArray[k].contains(gridX,gridY) == true){
-                            grid[i][j].setPaint(tempPaint);
+                            grid[i][j].setPaint(color);
                         }
                     }
                 }
@@ -358,6 +361,7 @@ public class CustomView extends View {
 
     public void gravity(){
         boolean empty = true;
+        int tempColor;
         for(int i = 0; i<16; i++){
             empty = true;
             for(int j = 0; j < 10; j++){
@@ -367,16 +371,17 @@ public class CustomView extends View {
                 }
             }
             //If the full boolean is still true, it will "clear it" by making the entire grid the light gray color
-
-                for(int k = i; k < 0 ; k--) {
+            if(empty == true) {
+                for (int k = i; k < 0; k--) {
                     for (int l = 0; l < 10; l++) {
-                            if(k == 0){
-                                continue;
-                            }
-                            grid[k][l].setPaint(grid[k-1][l].returnPaint().getColor());
+                        if (k == 0) {
+                            continue;
+                        }
+                        tempColor = grid[k - 1][l].returnPaint().getColor();
+                        grid[k][l].setPaint(tempColor);
                     }
                 }
-
+            }
         }
         invalidate();
     }
@@ -396,7 +401,6 @@ public class CustomView extends View {
             if(full == true){
                 for(int k = 0; k < 10; k++){
                     grid[i][k].setPaint(Color.LTGRAY);
-                    grid[i-1][k].setPaint(Color.BLACK);
                 }
                 score += 100;
             }
