@@ -33,7 +33,7 @@ The following ****required**** functionality is complete:
 * [x]  The piece stops when it hits another piece.
 * [x]  If an entire horizontal line is full of blocks, it disappears.
 * [x]  Keeps a running score.
-* [ ]  Shows the next piece to fall.
+* [x]  Shows the next piece to fall.
 * [x]  Runs on emulator Android 9.0 (Pie) - API Level 28.
 
 [//]: # (* [ ] Got any features?)
