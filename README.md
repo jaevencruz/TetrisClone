@@ -1,20 +1,20 @@
-# Assignment 3 - *_Project Name_*
+# Assignment 3 - *Tetris Clone*
 
 
 
-****Project Name**** Project description.
+****Tetris Clone**** This project is the team's first foray into Android Studio.  Utilizing the Java skills learned from assignment 1 and 2, the current project is a clone of the game Tetris.  
 
 
 
 Team Name:
 
-* ****Student Name 1****
+* ****Jaeven Laron****
 
-- UCInetID
+- jlaron
 
-* ****Student Name 2****
+* ****Aaron Su****
 
-- UCInetID
+- aaronys
 
 
 
