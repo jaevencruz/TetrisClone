@@ -59,7 +59,9 @@ public class RectPlayer implements GameObject   {
         this.paint = paint;
     }
 
-
+    public int returnMove(){
+        return this.prevMove;
+    }
 
     public synchronized void fallout(){
         BackEnd td = new BackEnd();

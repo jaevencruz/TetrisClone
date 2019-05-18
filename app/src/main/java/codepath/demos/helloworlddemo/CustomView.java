@@ -66,7 +66,6 @@ public class CustomView extends View {
         grid = new GridBlock[16][10];
         setTextSizeForWidth(textPaint,200,scoreStr);
 
-
         for(int i = 0; i < 16; i++){
             for(int j = 0; j < 10;j++) {
                 grid[i][j] = new GridBlock();
@@ -81,7 +80,6 @@ public class CustomView extends View {
 
             }
         }
-
 
     }
 
@@ -102,7 +100,6 @@ public class CustomView extends View {
 
         canvas.drawText(scoreStr, 11*SQUARE_SIZE_DEF, 100, textPaint);
         postInvalidate();
-
     }
 
     public void swapColor(){
@@ -110,6 +107,7 @@ public class CustomView extends View {
         postInvalidate();
     }
 
+    //Sets size of score text
     private static void setTextSizeForWidth(Paint paint, float desiredWidth,
                                             String text) {
         final float testTextSize = 48f;
@@ -273,6 +271,15 @@ public class CustomView extends View {
                     gridX = grid[i][j].getX();
                     gridY = grid[i][j].getY();
                     if (tempRectArray[k].contains(gridX,gridY) == true && grid[i][j].returnPaint().getColor() != Color.LTGRAY){
+                        //If else checks if the player collides with a colored grid from the right or left and merely prevents them from moving rather than setting the tetromino at that point
+                        if(rPlayer.returnMove() == 1){
+                            moveLeft();
+                            continue;
+                        }
+                        else if(rPlayer.returnMove() == 2){
+                            moveRight();
+                            continue;
+                        }
                         collision = true;
                         break;
                     }
