@@ -15,6 +15,7 @@ public class RectPlayer implements GameObject   {
     private static final int SQUARE_SIZE_DEF = getScreenWidth()/16 ;
     //prevMove is used to determine the direction that the player moved (0 = no move, 1 = moved right, 2 = moved left, 3 = moved down)
     private int prevMove = 0;
+    private int nextPiece = 0;
 
     public RectPlayer(Rect tetromino[], Paint paint) {
         this.tetromino = tetromino;
@@ -27,6 +28,10 @@ public class RectPlayer implements GameObject   {
         return this.paint;
     }
 
+    public int returnNextPiece(){
+        return this.nextPiece;
+    }
+
     public void setBlock(Rect rect, int i){
         tetromino[i] = rect;
     }
@@ -35,6 +40,7 @@ public class RectPlayer implements GameObject   {
         for(int i = 0; i < tetromino.length; i++){
             tetromino[i] = new Rect();
         }
+        setNextPiece();
     }
 
     public Rect[] returnTetromino(){
@@ -364,55 +370,59 @@ public class RectPlayer implements GameObject   {
         //use sin-cos to rotate within a 3x3 space
     }
 
-    //Randomly picks a piece to initialize
-    public void tetrominoPicker(){
+    public void setNextPiece(){
         Random tPicker = new Random();
         int num = tPicker.nextInt(7);
+        this.nextPiece = num;
+    }
+    //Randomly picks a piece to initialize
+    public void tetrominoPicker(){
+
         paint.setColor(colorRandom());
         while(true){
-            if(num== 0){
+            if(nextPiece == 0){
                 oBlockInit();
                 for(int i = 0; i<4;i++){
                     moveRight();
                 }
                 break;
             }
-            else if(num == 1){
+            else if(nextPiece == 1){
                 iBlockInit();
                 for(int i = 0; i<4;i++){
                     moveRight();
                 }
                 break;
             }
-            else if(num == 2){
+            else if(nextPiece == 2){
                 sBlockInit();
                 for(int i = 0; i<4;i++){
                     moveRight();
                 }
                 break;
             }
-            else if(num == 3){
+            else if(nextPiece == 3){
                 zBlockInit();
                 for(int i = 0; i<4;i++){
                     moveRight();
                 }
                 break;
             }
-            else if(num == 4){
+            else if(nextPiece == 4){
                 lBlockInit();
                 for(int i = 0; i<4;i++){
                     moveRight();
                 }
                 break;
             }
-            else if(num == 5){
+            else if(nextPiece == 5){
                 jBlockInit();
                 for(int i = 0; i<4;i++){
                     moveRight();
                 }
                 break;
             }
-            else if(num == 6){
+            else if(nextPiece == 6){
                 tBlockInit();
                 for(int i = 0; i<3;i++){
                     moveRight();

@@ -18,12 +18,15 @@ import java.util.Random;
 public class CustomView extends View {
 
     private static final int SQUARE_SIZE_DEF = getScreenWidth()/16 ;
+    private static final int SQUARE_SIZE_PREV = getScreenWidth()/24 ;
 
-    private Rect [] tetromino;
+    private Rect [] tetrominoPrev;
+    private Rect [] tetrominoInit;
     private GridBlock [][] grid;
     private Paint tGridPaint;
     private Paint dPaint;
     private Paint textPaint;
+    private Paint prevTet;
     public static RectPlayer rPlayer;
     private String scoreStr;
     private int score = 0;
@@ -51,20 +54,28 @@ public class CustomView extends View {
         scoreStr = new String();
         scoreStr = "Score: " + score;
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        prevTet = new Paint(Paint.ANTI_ALIAS_FLAG);
+        prevTet.setColor(Color.BLACK);
         textPaint.setColor(Color.BLACK);
-        tetromino = new Rect[4];
+        tetrominoPrev = new Rect[4];
+        tetrominoInit = new Rect[4];
         dPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         dPaint.setColor(colorRandom());
         tGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         tGridPaint.setColor(Color.LTGRAY);
 
-        rPlayer = new RectPlayer(tetromino,dPaint);
+        rPlayer = new RectPlayer(tetrominoInit,dPaint);
 
         rPlayer.initializeTetromino();
         rPlayer.tetrominoPicker();
 
+        for(int i = 0;i<tetrominoPrev.length;i++){
+            tetrominoPrev[i] = new Rect();
+        }
+
         grid = new GridBlock[16][10];
         setTextSizeForWidth(textPaint,200,scoreStr);
+        tetrominoPrevPicker();
 
         for(int i = 0; i < 16; i++){
             for(int j = 0; j < 10;j++) {
@@ -87,6 +98,7 @@ public class CustomView extends View {
     protected void onDraw(Canvas canvas){
         scoreStr = "Score: " + score;
         clearRow();
+        gravity();
         collisionDetection(rPlayer);
         gridBottomCheck(rPlayer);
         rPlayer.boundTetromino();
@@ -96,9 +108,13 @@ public class CustomView extends View {
             }
 
         }
+        for(int k = 0;k<4;k++){
+            canvas.drawRect(tetrominoPrev[k],prevTet);
+        }
         rPlayer.draw(canvas);
 
         canvas.drawText(scoreStr, 11*SQUARE_SIZE_DEF, 100, textPaint);
+        canvas.drawText("Next Piece: ", 11*SQUARE_SIZE_DEF, 150, textPaint);
         postInvalidate();
     }
 
@@ -134,7 +150,7 @@ public class CustomView extends View {
             return Color.BLUE;
         }
         else{
-            return Color.YELLOW;
+            return Color.BLACK;
         }
     }
 
@@ -254,6 +270,8 @@ public class CustomView extends View {
             }
             if(resetRPlayer == true){
                 rPlayer.tetrominoPicker();
+                rPlayer.setNextPiece();
+                tetrominoPrevPicker();
             }
             postInvalidate();
     }
@@ -271,7 +289,7 @@ public class CustomView extends View {
                     gridX = grid[i][j].getX();
                     gridY = grid[i][j].getY();
                     if (tempRectArray[k].contains(gridX,gridY) == true && grid[i][j].returnPaint().getColor() != Color.LTGRAY){
-                        //If else checks if the player collides with a colored grid from the right or left and merely prevents them from moving rather than setting the tetromino at that point
+                        //If else checks if the player collides with a colored grid from the right or left and merely prevents them from moving rather than setting the tetrominoPrev at that point
                         if(rPlayer.returnMove() == 1){
                             moveLeft();
                             continue;
@@ -300,6 +318,8 @@ public class CustomView extends View {
                 }
             }
             rPlayer.tetrominoPicker();
+            rPlayer.setNextPiece();
+            tetrominoPrevPicker();
         }
 
         postInvalidate();
@@ -336,6 +356,31 @@ public class CustomView extends View {
         return 0;
     }
 
+    public void gravity(){
+        boolean empty = true;
+        for(int i = 0; i<16; i++){
+            empty = true;
+            for(int j = 0; j < 10; j++){
+                //If anyone gridblock is not light gray, the row is not empty and the boolean is set false.
+                if(grid[i][j].returnPaint().getColor() != Color.LTGRAY ){
+                    empty = false;
+                }
+            }
+            //If the full boolean is still true, it will "clear it" by making the entire grid the light gray color
+
+                for(int k = i; k < 0 ; k--) {
+                    for (int l = 0; l < 10; l++) {
+                            if(k == 0){
+                                continue;
+                            }
+                            grid[k][l].setPaint(grid[k-1][l].returnPaint().getColor());
+                    }
+                }
+
+        }
+        invalidate();
+    }
+
     //Able to clear a row but does not move everything down
     public void clearRow(){
         //Full is initially true.  Guilty until proven innocent.
@@ -351,12 +396,13 @@ public class CustomView extends View {
             if(full == true){
                 for(int k = 0; k < 10; k++){
                     grid[i][k].setPaint(Color.LTGRAY);
+                    grid[i-1][k].setPaint(Color.BLACK);
                 }
                 score += 100;
             }
             full = true;
         }
-        postInvalidate();
+        invalidate();
     }
 
     public boolean bottomCheck(Rect[] tetromino){
@@ -374,6 +420,7 @@ public class CustomView extends View {
                 grid[i][j].setPaint(Color.LTGRAY);
             }
         }
+        this.score = 0;
     }
 
     public void scoreUp(){
@@ -394,6 +441,213 @@ public class CustomView extends View {
                 break;
             }
             moveDown();
+        }
+
+    }
+
+    /*The init methods within this CustomView are used to generate the next Tetromino preview on the RHS of the screen*/
+
+    public void sBlockInit(){
+        tetrominoPrev[0].left = 12 * SQUARE_SIZE_DEF;
+        tetrominoPrev[0].top = 4*SQUARE_SIZE_DEF;
+        tetrominoPrev[0].right = tetrominoPrev[0].left + SQUARE_SIZE_PREV;
+        tetrominoPrev[0].bottom = tetrominoPrev[0].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[1].left = tetrominoPrev[0].left + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[1].top = tetrominoPrev[0].top;
+        tetrominoPrev[1].right = tetrominoPrev[1].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[1].bottom = tetrominoPrev[1].top + SQUARE_SIZE_PREV;
+
+
+        tetrominoPrev[2].left = tetrominoPrev[1].left;
+        tetrominoPrev[2].top = tetrominoPrev[1].top - SQUARE_SIZE_PREV - 1;
+        tetrominoPrev[2].right = tetrominoPrev[2].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[2].bottom = tetrominoPrev[2].top+SQUARE_SIZE_PREV;
+
+
+        tetrominoPrev[3].left = tetrominoPrev[2].left + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[3].top = tetrominoPrev[2].top;
+        tetrominoPrev[3].right = tetrominoPrev[3].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[3].bottom = tetrominoPrev[3].top + SQUARE_SIZE_PREV;
+
+
+    }
+
+    //Initializes S Block
+    public void zBlockInit(){
+        tetrominoPrev[0].left = 12* SQUARE_SIZE_DEF;
+        tetrominoPrev[0].top = 3*SQUARE_SIZE_DEF;
+        tetrominoPrev[0].right = tetrominoPrev[0].left + SQUARE_SIZE_PREV;
+        tetrominoPrev[0].bottom = tetrominoPrev[0].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[1].left = tetrominoPrev[0].left + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[1].top =  tetrominoPrev[0].top;
+        tetrominoPrev[1].right = tetrominoPrev[1].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[1].bottom = tetrominoPrev[1].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[2].left = tetrominoPrev[1].left ;
+        tetrominoPrev[2].top = tetrominoPrev[1].top + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[2].right = tetrominoPrev[2].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[2].bottom = tetrominoPrev[2].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[3].left = tetrominoPrev[2].left + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[3].top = tetrominoPrev[2].top;
+        tetrominoPrev[3].right = tetrominoPrev[3].left + SQUARE_SIZE_PREV;
+        tetrominoPrev[3].bottom = tetrominoPrev[3].top + SQUARE_SIZE_PREV;
+
+    }
+
+    //Initializes O Block
+    public void oBlockInit(){
+        tetrominoPrev[0].left = 12*SQUARE_SIZE_DEF + 25;
+        tetrominoPrev[0].top = 3*SQUARE_SIZE_DEF;
+        tetrominoPrev[0].right = tetrominoPrev[0].left + SQUARE_SIZE_PREV;
+        tetrominoPrev[0].bottom = tetrominoPrev[0].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[1].left = tetrominoPrev[0].left + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[1].top =  tetrominoPrev[0].top;
+        tetrominoPrev[1].right = tetrominoPrev[1].left + SQUARE_SIZE_PREV;
+        tetrominoPrev[1].bottom = tetrominoPrev[1].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[2].left = tetrominoPrev[0].left;
+        tetrominoPrev[2].top = tetrominoPrev[0].top + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[2].right = tetrominoPrev[2].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[2].bottom = tetrominoPrev[2].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[3].left = tetrominoPrev[2].left + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[3].top = tetrominoPrev[2].top;
+        tetrominoPrev[3].right = tetrominoPrev[3].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[3].bottom = tetrominoPrev[3].top + SQUARE_SIZE_PREV;
+
+    }
+
+    //Initializes I block
+    public void iBlockInit(){
+        tetrominoPrev[0].left = 12*SQUARE_SIZE_DEF + 35;
+        tetrominoPrev[0].top = 3*SQUARE_SIZE_DEF;
+        tetrominoPrev[0].right = tetrominoPrev[0].left + SQUARE_SIZE_PREV;
+        tetrominoPrev[0].bottom = tetrominoPrev[0].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[1].left = tetrominoPrev[0].left;
+        tetrominoPrev[1].top =  tetrominoPrev[0].top+SQUARE_SIZE_PREV+1;
+        tetrominoPrev[1].right = tetrominoPrev[1].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[1].bottom = tetrominoPrev[1].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[2].left = tetrominoPrev[1].left;
+        tetrominoPrev[2].top = tetrominoPrev[1].top+SQUARE_SIZE_PREV+1;
+        tetrominoPrev[2].right = tetrominoPrev[2].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[2].bottom = tetrominoPrev[2].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[3].left = tetrominoPrev[2].left;
+        tetrominoPrev[3].top = tetrominoPrev[2].top + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[3].right = tetrominoPrev[3].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[3].bottom = tetrominoPrev[3].top + SQUARE_SIZE_PREV;
+
+    }
+
+    //Initializes L block
+    public void lBlockInit(){
+        tetrominoPrev[0].left = 12*SQUARE_SIZE_DEF + 25;
+        tetrominoPrev[0].top = 3*SQUARE_SIZE_DEF;
+        tetrominoPrev[0].right = tetrominoPrev[0].left + SQUARE_SIZE_PREV;
+        tetrominoPrev[0].bottom = tetrominoPrev[0].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[1].left = tetrominoPrev[0].left;
+        tetrominoPrev[1].top =  tetrominoPrev[0].top+SQUARE_SIZE_PREV+1;
+        tetrominoPrev[1].right = tetrominoPrev[1].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[1].bottom = tetrominoPrev[1].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[2].left = tetrominoPrev[1].left;
+        tetrominoPrev[2].top = tetrominoPrev[1].top+SQUARE_SIZE_PREV+1;
+        tetrominoPrev[2].right = tetrominoPrev[2].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[2].bottom = tetrominoPrev[2].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[3].left = tetrominoPrev[2].left + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[3].top = tetrominoPrev[2].top;
+        tetrominoPrev[3].right = tetrominoPrev[3].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[3].bottom = tetrominoPrev[3].top + SQUARE_SIZE_PREV;
+    }
+
+    //Initializes J Block
+    public void jBlockInit(){
+        tetrominoPrev[0].left = 12*SQUARE_SIZE_DEF + 25;
+        tetrominoPrev[0].top = 3*SQUARE_SIZE_DEF;
+        tetrominoPrev[0].right = tetrominoPrev[0].left + SQUARE_SIZE_PREV;
+        tetrominoPrev[0].bottom = tetrominoPrev[0].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[1].left = tetrominoPrev[0].left;
+        tetrominoPrev[1].top =  tetrominoPrev[0].top+SQUARE_SIZE_PREV+1;
+        tetrominoPrev[1].right = tetrominoPrev[1].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[1].bottom = tetrominoPrev[1].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[2].left = tetrominoPrev[1].left;
+        tetrominoPrev[2].top = tetrominoPrev[1].top+SQUARE_SIZE_PREV+1;
+        tetrominoPrev[2].right = tetrominoPrev[2].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[2].bottom = tetrominoPrev[2].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[3].left = tetrominoPrev[2].left - SQUARE_SIZE_PREV - 1;
+        tetrominoPrev[3].top = tetrominoPrev[2].top;
+        tetrominoPrev[3].right = tetrominoPrev[3].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[3].bottom = tetrominoPrev[3].top + SQUARE_SIZE_PREV;
+    }
+
+    //Initializes T Block
+    public void tBlockInit(){
+        tetrominoPrev[0].left = 12* SQUARE_SIZE_DEF;
+        tetrominoPrev[0].top = 3*SQUARE_SIZE_DEF;
+        tetrominoPrev[0].right = tetrominoPrev[0].left + SQUARE_SIZE_PREV;
+        tetrominoPrev[0].bottom = tetrominoPrev[0].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[1].left = tetrominoPrev[0].left + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[1].top =  tetrominoPrev[0].top;
+        tetrominoPrev[1].right = tetrominoPrev[1].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[1].bottom = tetrominoPrev[1].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[2].left = tetrominoPrev[1].left ;
+        tetrominoPrev[2].top = tetrominoPrev[1].top + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[2].right = tetrominoPrev[2].left + SQUARE_SIZE_PREV ;
+        tetrominoPrev[2].bottom = tetrominoPrev[2].top + SQUARE_SIZE_PREV;
+
+        tetrominoPrev[3].left = tetrominoPrev[2].left + SQUARE_SIZE_PREV + 1;
+        tetrominoPrev[3].top = tetrominoPrev[1].top;
+        tetrominoPrev[3].right = tetrominoPrev[3].left + SQUARE_SIZE_PREV;
+        tetrominoPrev[3].bottom = tetrominoPrev[3].top + SQUARE_SIZE_PREV;
+    }
+
+    public void tetrominoPrevPicker(){
+
+        while(true){
+            if(rPlayer.returnNextPiece() == 0){
+                oBlockInit();
+                break;
+            }
+            else if(rPlayer.returnNextPiece() == 1){
+                iBlockInit();
+                break;
+            }
+            else if(rPlayer.returnNextPiece() == 2){
+                sBlockInit();
+                break;
+            }
+            else if(rPlayer.returnNextPiece() == 3){
+                zBlockInit();
+                break;
+            }
+            else if(rPlayer.returnNextPiece() == 4){
+                lBlockInit();
+                break;
+            }
+            else if(rPlayer.returnNextPiece() == 5){
+                jBlockInit();
+                break;
+            }
+            else if(rPlayer.returnNextPiece() == 6){
+                tBlockInit();
+                break;
+            }
+            else{
+                continue;
+            }
         }
 
     }
