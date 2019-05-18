@@ -13,6 +13,8 @@ public class RectPlayer implements GameObject   {
     private Rect tetromino[] = new Rect[4];
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final int SQUARE_SIZE_DEF = getScreenWidth()/16 ;
+    //prevMove is used to determine the direction that the player moved (0 = no move, 1 = moved right, 2 = moved left, 3 = moved down)
+    private int prevMove = 0;
 
     public RectPlayer(Rect tetromino[], Paint paint) {
         this.tetromino = tetromino;
@@ -96,6 +98,7 @@ public class RectPlayer implements GameObject   {
 
             tetromino[i].right = tetromino[i].right + SQUARE_SIZE_DEF;
         }
+        this.prevMove = 1;
     }
 
     public void moveLeft(){
@@ -110,6 +113,7 @@ public class RectPlayer implements GameObject   {
 
             tetromino[i].right = tetromino[i].right - SQUARE_SIZE_DEF;
         }
+        this.prevMove = 2;
     }
 
     public void moveUp(){
@@ -124,6 +128,7 @@ public class RectPlayer implements GameObject   {
 
             tetromino[i].bottom = tetromino[i].bottom - SQUARE_SIZE_DEF;
         }
+        this.prevMove = 4;
     }
 
     public void moveDown(){
@@ -138,6 +143,7 @@ public class RectPlayer implements GameObject   {
 
             tetromino[i].bottom = tetromino[i].bottom + SQUARE_SIZE_DEF;
         }
+        this.prevMove = 3;
     }
 
     public static int getScreenWidth() {

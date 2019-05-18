@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -28,10 +27,7 @@ public class MainActivity extends Activity {
 		//setContentView(mCustomSurfaceView);
 
 		mCustomView = (CustomView) findViewById(R.id.customView);
-		TextView tv = (TextView) findViewById(R.id.textView);
 
-		String message = "Score: " + mCustomView.returnScore();
-		tv.setText(message);
 
 		findViewById(R.id.btn_swap_color).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -43,28 +39,28 @@ public class MainActivity extends Activity {
 		findViewById(R.id.btn_move_down).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.rPlayer.moveDown();
+				mCustomView.moveDown();
 			}
 		});
 
 		findViewById(R.id.btn_move_right).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.rPlayer.moveRight();
+				mCustomView.moveRight();
 			}
 		});
 
 		findViewById(R.id.btn_move_up).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.rPlayer.moveUp();
+				mCustomView.moveUp();
 			}
 		});
 
         findViewById(R.id.btn_move_left).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCustomView.rPlayer.moveLeft();
+                mCustomView.moveLeft();
             }
         });
 
@@ -92,7 +88,12 @@ public class MainActivity extends Activity {
 				mCustomView.resetGrid();
 			}
 		});
-
+		findViewById(R.id.instafall).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mCustomView.moveToBottom();
+			}
+		});
 	}
 
 	@Override

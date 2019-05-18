@@ -23,7 +23,9 @@ public class CustomView extends View {
     private GridBlock [][] grid;
     private Paint tGridPaint;
     private Paint dPaint;
+    private Paint textPaint;
     public static RectPlayer rPlayer;
+    private String scoreStr;
     private int score = 0;
 
     public CustomView(Context context) {
@@ -46,8 +48,10 @@ public class CustomView extends View {
 
     //the init function is the place to initialize stuff, such as creating a new rectangle and such
     private void init(@Nullable AttributeSet set){
-
-        Random tetrominoPicker = new Random();
+        scoreStr = new String();
+        scoreStr = "Score: " + score;
+        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setColor(Color.BLACK);
         tetromino = new Rect[4];
         dPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         dPaint.setColor(colorRandom());
@@ -60,6 +64,7 @@ public class CustomView extends View {
         rPlayer.tetrominoPicker();
 
         grid = new GridBlock[16][10];
+        setTextSizeForWidth(textPaint,200,scoreStr);
 
 
         for(int i = 0; i < 16; i++){
@@ -82,6 +87,7 @@ public class CustomView extends View {
 
     @Override
     protected void onDraw(Canvas canvas){
+        scoreStr = "Score: " + score;
         clearRow();
         collisionDetection(rPlayer);
         gridBottomCheck(rPlayer);
@@ -93,6 +99,8 @@ public class CustomView extends View {
 
         }
         rPlayer.draw(canvas);
+
+        canvas.drawText(scoreStr, 11*SQUARE_SIZE_DEF, 100, textPaint);
         postInvalidate();
 
     }
@@ -102,20 +110,17 @@ public class CustomView extends View {
         postInvalidate();
     }
 
-    public void moveDown(){
-        //Checks if block is at bottom and restricts movement there
-        for(int i = 0; i<tetromino.length;i++){
-            if ((tetromino[i].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF+1))){
-                return;
-            }
-        }
+    private static void setTextSizeForWidth(Paint paint, float desiredWidth,
+                                            String text) {
+        final float testTextSize = 48f;
 
-        for(int i = 0; i < tetromino.length; i++) {
-            tetromino[i].top = tetromino[i].top + SQUARE_SIZE_DEF;
+        paint.setTextSize(testTextSize);
+        Rect bounds = new Rect();
+        paint.getTextBounds(text, 0, text.length(), bounds);
 
-            tetromino[i].bottom = tetromino[i].bottom + SQUARE_SIZE_DEF;
-        }
-        postInvalidate();
+        float desiredTextSize = testTextSize * desiredWidth / bounds.width();
+
+        paint.setTextSize(desiredTextSize);
     }
 
     public int colorRandom(){
@@ -135,7 +140,23 @@ public class CustomView extends View {
         }
     }
 
-    public void moveRight(){
+    public void moveDown(Rect[] tetromino){
+        //Checks if block is at bottom and restricts movement there
+        for(int i = 0; i<tetromino.length;i++){
+            if ((tetromino[i].bottom + SQUARE_SIZE_DEF )> (16*(SQUARE_SIZE_DEF+1))){
+                return;
+            }
+        }
+
+        for(int i = 0; i < tetromino.length; i++) {
+            tetromino[i].top = tetromino[i].top + SQUARE_SIZE_DEF;
+
+            tetromino[i].bottom = tetromino[i].bottom + SQUARE_SIZE_DEF;
+        }
+        postInvalidate();
+    }
+
+    public void moveRight(Rect[] tetromino){
         //Checks if block is at right corner and restricts movement there
         for(int i = 0; i<tetromino.length;i++){
             if ((tetromino[i].right + SQUARE_SIZE_DEF )> 10*(SQUARE_SIZE_DEF+1)){
@@ -150,7 +171,7 @@ public class CustomView extends View {
         postInvalidate();
     }
 
-    public void moveLeft(){
+    public void moveLeft(Rect[] tetromino){
         //Checks if block is at left corner and restricts movement there
         for(int i = 0; i<tetromino.length;i++){
             if ((tetromino[i].left - SQUARE_SIZE_DEF )< 0){
@@ -177,6 +198,31 @@ public class CustomView extends View {
 
             tetromino[i].bottom = tetromino[i].bottom - SQUARE_SIZE_DEF;
         }
+        postInvalidate();
+    }
+
+    public void moveDown(){
+        //Checks if block is at bottom and restricts movement there
+        rPlayer.moveDown();
+        this.score += 10;
+        postInvalidate();
+    }
+
+    public void moveRight(){
+        //Checks if block is at right corner and restricts movement there
+        rPlayer.moveRight();
+        postInvalidate();
+    }
+
+    public void moveLeft(){
+        //Checks if block is at left corner and restricts movement there
+        rPlayer.moveLeft();
+        postInvalidate();
+    }
+
+    public void moveUp(){
+        //Checks if block is at the top and restricts movement there
+        rPlayer.moveUp();
         postInvalidate();
     }
 
@@ -252,6 +298,37 @@ public class CustomView extends View {
         postInvalidate();
     }
 
+    //Method to return int specifically made for the instafall method
+    public int isCollide(RectPlayer rPlayer){
+        int gridX;
+        int gridY;
+        Rect[] tempRectArray;
+        boolean underGrid = false;
+        tempRectArray = rPlayer.returnTetromino();
+        if(bottomCheck(tempRectArray) == true){
+            underGrid = true;
+            moveUp(tempRectArray);
+        }
+        for(int i = 0; i<16; i++){
+            for(int j = 0; j < 10; j++){
+                for(int k = 0; k < tempRectArray.length; k++) {
+                    gridX = grid[i][j].getX();
+                    gridY = grid[i][j].getY();
+                    if( tempRectArray[k].contains(gridX,gridY) == true && underGrid == true){
+                        //This returns when the
+                        return 1;
+                    }
+                    else if (tempRectArray[k].contains(gridX,gridY) == true && grid[i][j].returnPaint().getColor() != Color.LTGRAY ){
+                        return 2;
+                    }
+
+                }
+            }
+        }
+        postInvalidate();
+        return 0;
+    }
+
     //Able to clear a row but does not move everything down
     public void clearRow(){
         //Full is initially true.  Guilty until proven innocent.
@@ -292,13 +369,26 @@ public class CustomView extends View {
         }
     }
 
-    public int returnScore(){
-        return this.score;
-    }
-
     public void scoreUp(){
         score += 100;
         System.out.println(score);
+    }
+
+    public void moveToBottom(){
+        while(true){
+            if(isCollide(rPlayer) == 1){
+                moveDown();
+                gridBottomCheck(rPlayer);
+                break;
+            }
+            else if(isCollide(rPlayer)==2){
+
+                collisionDetection(rPlayer);
+                break;
+            }
+            moveDown();
+        }
+
     }
 }
 
