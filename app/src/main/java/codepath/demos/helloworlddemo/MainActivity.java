@@ -12,6 +12,7 @@ public class MainActivity extends Activity {
 	private CustomView mCustomView;
 	private CustomSurfaceView mCustomSurfaceView;
 	//private MainThread thread;
+	private GameThread th;
 
 	//The onCreate function initializes stuff
 	@Override
@@ -21,12 +22,12 @@ public class MainActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_hello_world);
 
+		th = new GameThread(this.getBaseContext());
+		th.setCustomView((CustomView) findViewById(R.id.customView));
+		th.setRunning(true);
+		th.start();
 
-		//mCustomSurfaceView  = new CustomSurfaceView(this.getBaseContext());
-
-		//setContentView(mCustomSurfaceView);
-
-		mCustomView = (CustomView) findViewById(R.id.customView);
+		//mCustomView = (CustomView) findViewById(R.id.customView);
 
 
 		findViewById(R.id.btn_swap_color).setOnClickListener(new View.OnClickListener() {
@@ -39,59 +40,59 @@ public class MainActivity extends Activity {
 		findViewById(R.id.btn_move_down).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.moveDown();
+				th.returnCustomView().moveDown();
 			}
 		});
 
 		findViewById(R.id.btn_move_right).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.moveRight();
+				th.returnCustomView().moveRight();
 			}
 		});
 
 		findViewById(R.id.btn_move_up).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.moveUp();
+				th.returnCustomView().moveUp();
 			}
 		});
 
         findViewById(R.id.btn_move_left).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCustomView.moveLeft();
+				th.returnCustomView().moveLeft();
             }
         });
 
 		findViewById(R.id.btn_rnd_piece).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.rPlayer.tetrominoPicker();
+				th.returnCustomView().rPlayer.tetrominoPicker();
 			}
 		});
 		findViewById(R.id.rotatecounter).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.rPlayer.rotateccw();
+				th.returnCustomView().rPlayer.rotateccw();
 			}
 		});
 		findViewById(R.id.fall).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.scoreUp();
+				th.returnCustomView().scoreUp();
 			}
 		});
 		findViewById(R.id.rst_grid).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.resetGrid();
+				th.returnCustomView().resetGrid();
 			}
 		});
 		findViewById(R.id.instafall).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mCustomView.moveToBottom();
+				th.returnCustomView().moveToBottom();
 			}
 		});
 	}

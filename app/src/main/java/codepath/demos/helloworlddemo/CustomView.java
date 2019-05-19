@@ -32,6 +32,7 @@ public class CustomView extends View {
     private String scoreStr;
     private int score = 0;
 
+
     public CustomView(Context context) {
         super(context);
         init(null);
@@ -120,6 +121,33 @@ public class CustomView extends View {
         canvas.drawText("Next Piece: ", 11*SQUARE_SIZE_DEF, 150, textPaint);
         postInvalidate();
     }
+
+    @Override
+    public void draw(Canvas canvas){
+        super.draw(canvas);
+        scoreStr = "Score: " + score;
+        clearRow();
+        gravity();
+        collisionDetection(rPlayer);
+        gridBottomCheck(rPlayer);
+        rPlayer.boundTetromino();
+        for(int i = 0; i < 16; i++){
+            for(int j = 0; j < 10; j++){
+                grid[i][j].draw(canvas);
+            }
+
+        }
+        for(int k = 0;k<4;k++){
+            canvas.drawRect(tetrominoPrev[k],prevTet);
+        }
+        rPlayer.draw(canvas);
+
+        canvas.drawText(scoreStr, 11*SQUARE_SIZE_DEF, 100, textPaint);
+        canvas.drawText("Next Piece: ", 11*SQUARE_SIZE_DEF, 150, textPaint);
+        postInvalidate();
+    }
+
+
 
     public void swapColor(){
         dPaint.setColor(colorRandom());
@@ -361,18 +389,19 @@ public class CustomView extends View {
 
     public void gravity(){
         boolean empty = true;
-        int tempColor;
+        int tempColor,counter = 0;
         for(int i = 0; i<16; i++){
-            empty = true;
             for(int j = 0; j < 10; j++){
                 //If anyone gridblock is not light gray, the row is not empty and the boolean is set false.
                 if(grid[i][j].returnPaint().getColor() != Color.LTGRAY ){
                     empty = false;
                 }
             }
+            counter++;
             //If the full boolean is still true, it will "clear it" by making the entire grid the light gray color
             if(empty == true) {
-                for (int k = i; k < 0; k--) {
+
+                for (int k = counter; k < 0; k--) {
                     for (int l = 0; l < 10; l++) {
                         if (k == 0) {
                             continue;
@@ -382,8 +411,9 @@ public class CustomView extends View {
                     }
                 }
             }
+            empty = true;
         }
-        invalidate();
+        postInvalidate();
     }
 
     //Able to clear a row but does not move everything down
@@ -402,7 +432,7 @@ public class CustomView extends View {
                 for(int k = 0; k < 10; k++){
                     grid[i][k].setPaint(Color.LTGRAY);
                 }
-                score += 100;
+                score += 500;
             }
             full = true;
         }
