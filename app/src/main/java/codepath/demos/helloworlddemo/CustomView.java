@@ -78,7 +78,7 @@ public class CustomView extends View {
         }
 
         grid = new GridBlock[16][10];
-        setTextSizeForWidth(textPaint,200,scoreStr);
+        setTextWidth(textPaint,200,scoreStr);
         tetrominoPrevPicker();
 
         for(int i = 0; i < 16; i++){
@@ -155,17 +155,18 @@ public class CustomView extends View {
 
 
     //Sets size of score text
-    private static void setTextSizeForWidth(Paint paint, float desiredWidth,
-                                            String text) {
-        final float testTextSize = 48f;
+    private static void setTextWidth(Paint paint, float desiredWidth,
+                                     String text) {
 
-        paint.setTextSize(testTextSize);
+        final float TextSize = 48f;
+
+        paint.setTextSize(TextSize);
         Rect bounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), bounds);
 
-        float desiredTextSize = testTextSize * desiredWidth / bounds.width();
+        float newTextSize = TextSize * desiredWidth / bounds.width();
 
-        paint.setTextSize(desiredTextSize);
+        paint.setTextSize(newTextSize);
     }
 
     public int returnScore(){
@@ -420,8 +421,8 @@ public class CustomView extends View {
                             continue;
                         }
                         System.out.println("The color before was:" + grid[k][l].returnPaint().getColor());
-                        tempColor = grid[k - 1][l].returnPaint().getColor();
-                        grid[k][l].setPaint(tempColor);
+                        tempColor = grid[k][l].returnPaint().getColor();
+                        grid[k+1][l].setPaint(tempColor);
                         System.out.println("The color now is:" + grid[k][l].returnPaint().getColor());
                     }
                 }
