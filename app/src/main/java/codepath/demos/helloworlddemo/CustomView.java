@@ -103,9 +103,7 @@ public class CustomView extends View {
         boolean flag;
         scoreStr = "Score: " + score;
         flag = clearRow();
-        if(flag==true) {
-            gravity();
-        }
+
         collisionDetection(rPlayer);
         gridBottomCheck(rPlayer);
         rPlayer.boundTetromino();
@@ -131,9 +129,6 @@ public class CustomView extends View {
         super.draw(canvas);
         scoreStr = "Score: " + score;
         flag = clearRow();
-        if(flag == true) {
-            gravity();
-        }
         collisionDetection(rPlayer);
         gridBottomCheck(rPlayer);
         rPlayer.boundTetromino();
@@ -400,8 +395,9 @@ public class CustomView extends View {
         return 0;
     }
 
-    public void gravity(){
-        boolean empty = true;
+    public void gravity(int counter){
+        int tempColor;
+        /*boolean empty = true;
         int tempColor,counter = 0;
         for(int i = 0; i<16; i++){
             for(int j = 0; j < 10; j++){
@@ -413,7 +409,7 @@ public class CustomView extends View {
             counter++;
             //If the full boolean is still true, it will "clear it" by making the entire grid the light gray color
             if(empty == true) {
-                System.out.println("Condition true");
+                System.out.println("Condition true");*/
 
                 for (int k = counter; k < 0; k--) {
                     for (int l = 0; l < 10; l++) {
@@ -426,9 +422,9 @@ public class CustomView extends View {
                         System.out.println("The color now is:" + grid[k][l].returnPaint().getColor());
                     }
                 }
-            }
-            empty = true;
-        }
+            //}
+            //empty = true;
+        //}
         postInvalidate();
     }
 
@@ -449,6 +445,7 @@ public class CustomView extends View {
                 for(int k = 0; k < 10; k++){
                     grid[i][k].setPaint(Color.LTGRAY);
                 }
+                gravity(i);
                 score += 500;
                 System.out.println("Row Cleared!");
                 flag = true;
