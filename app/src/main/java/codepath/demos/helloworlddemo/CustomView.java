@@ -168,6 +168,10 @@ public class CustomView extends View {
         paint.setTextSize(desiredTextSize);
     }
 
+    public int returnScore(){
+        return this.score;
+    }
+
     public int colorRandom(){
         Random rnd = new Random();
         int numGen = rnd.nextInt(3);
@@ -380,10 +384,11 @@ public class CustomView extends View {
                     gridX = grid[i][j].getX();
                     gridY = grid[i][j].getY();
                     if( tempRectArray[k].contains(gridX,gridY) == true && underGrid == true){
-                        //This returns when the
+                        //This returns when the instafall falls to the bottom
                         return 1;
                     }
                     else if (tempRectArray[k].contains(gridX,gridY) == true && grid[i][j].returnPaint().getColor() != Color.LTGRAY ){
+                        //This returns when
                         return 2;
                     }
 
@@ -409,7 +414,7 @@ public class CustomView extends View {
             if(empty == true) {
                 System.out.println("Condition true");
 
-                for (int k = counter; k > 0; k--) {
+                for (int k = counter; k < 0; k--) {
                     for (int l = 0; l < 10; l++) {
                         if (k == 0) {
                             continue;
@@ -474,11 +479,6 @@ public class CustomView extends View {
         rPlayer.setNextPiece();
         rPlayer.tetrominoPicker();
         tetrominoPrevPicker();
-    }
-
-    public void scoreUp(){
-        score += 100;
-        System.out.println(score);
     }
 
     public void moveToBottom(){

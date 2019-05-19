@@ -6,6 +6,7 @@ public class GameThread extends Thread {
     private Context context;
     private CustomView TetrisSpace;
     private boolean running;
+    private int score;
 
     public GameThread(Context context){
         super();
@@ -40,7 +41,7 @@ public class GameThread extends Thread {
 
     @Override
     public void run(){
-
+        score = TetrisSpace.returnScore();
         while(running){
             try {
                 synchronized (TetrisSpace) {
@@ -49,7 +50,21 @@ public class GameThread extends Thread {
             } catch (Exception e){
             }
             try {
-                currentThread().sleep(1000);
+                if(score > 1000) {
+                    currentThread().sleep(1500);
+                }
+                else if(score > 2500 ){
+                    currentThread().sleep(1000);
+                }
+                else if(score > 5000){
+                    currentThread().sleep(750);
+                }
+                else if(score > 7500){
+                    currentThread().sleep(500);
+                }
+                else{
+                    currentThread().sleep(1000);
+                }
             }catch (Exception e){}
 
         }
