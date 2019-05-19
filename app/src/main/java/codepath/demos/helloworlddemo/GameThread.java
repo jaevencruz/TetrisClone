@@ -43,7 +43,9 @@ public class GameThread extends Thread {
 
         while(running){
             try {
-               TetrisSpace.moveDown();
+                synchronized (TetrisSpace) {
+                    TetrisSpace.moveDown();
+                }
             } catch (Exception e){
             }
             try {

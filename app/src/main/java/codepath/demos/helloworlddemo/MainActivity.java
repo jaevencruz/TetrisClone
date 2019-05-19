@@ -10,7 +10,6 @@ import android.view.WindowManager;
 public class MainActivity extends Activity {
 
 	private CustomView mCustomView;
-	private CustomSurfaceView mCustomSurfaceView;
 	//private MainThread thread;
 	private GameThread th;
 
@@ -30,12 +29,6 @@ public class MainActivity extends Activity {
 		//mCustomView = (CustomView) findViewById(R.id.customView);
 
 
-		findViewById(R.id.btn_swap_color).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				mCustomView.swapColor();
-			}
-		});
 
 		findViewById(R.id.btn_move_down).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -51,12 +44,6 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		findViewById(R.id.btn_move_up).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				th.returnCustomView().moveUp();
-			}
-		});
 
         findViewById(R.id.btn_move_left).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,27 +52,18 @@ public class MainActivity extends Activity {
             }
         });
 
-		findViewById(R.id.btn_rnd_piece).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				th.returnCustomView().rPlayer.tetrominoPicker();
-			}
-		});
+
 		findViewById(R.id.rotatecounter).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				th.returnCustomView().rPlayer.rotateccw();
 			}
 		});
-		findViewById(R.id.fall).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				th.returnCustomView().scoreUp();
-			}
-		});
+
 		findViewById(R.id.rst_grid).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+
 				th.returnCustomView().resetGrid();
 			}
 		});
@@ -95,6 +73,7 @@ public class MainActivity extends Activity {
 				th.returnCustomView().moveToBottom();
 			}
 		});
+
 	}
 
 	@Override

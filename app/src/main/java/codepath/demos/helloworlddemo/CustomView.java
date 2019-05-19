@@ -138,7 +138,7 @@ public class CustomView extends View {
 
         }
         for(int k = 0;k<4;k++){
-            canvas.drawRect(tetrominoPrev[k],prevTet);
+            canvas.drawRect(tetrominoPrev[k],rPlayer.returnPaint());
         }
         rPlayer.draw(canvas);
 
@@ -147,12 +147,6 @@ public class CustomView extends View {
         postInvalidate();
     }
 
-
-
-    public void swapColor(){
-        dPaint.setColor(colorRandom());
-        postInvalidate();
-    }
 
     //Sets size of score text
     private static void setTextSizeForWidth(Paint paint, float desiredWidth,
@@ -319,6 +313,12 @@ public class CustomView extends View {
                 for(int k = 0; k < tempRectArray.length; k++) {
                     gridX = grid[i][j].getX();
                     gridY = grid[i][j].getY();
+                    /*Game over condition*/
+                    if (tempRectArray[k].contains(gridX,gridY) == true && grid[i][j].returnPaint().getColor() != Color.LTGRAY && i==0 && (rPlayer.returnMove() != 1 || rPlayer.returnMove() != 2)){
+                        System.out.println("GAME OVER");
+                        resetGrid();
+                        return;
+                    }
                     if (tempRectArray[k].contains(gridX,gridY) == true && grid[i][j].returnPaint().getColor() != Color.LTGRAY){
                         //If else checks if the player collides with a colored grid from the right or left and merely prevents them from moving rather than setting the tetrominoPrev at that point
                         if(rPlayer.returnMove() == 1){
@@ -336,6 +336,7 @@ public class CustomView extends View {
             }
         }
         if(collision == true){
+
             moveUp(tempRectArray);
             for(int i = 0; i<16; i++){
                 for(int j = 0; j < 10; j++){
@@ -455,6 +456,9 @@ public class CustomView extends View {
             }
         }
         this.score = 0;
+        rPlayer.setNextPiece();
+        rPlayer.tetrominoPicker();
+        tetrominoPrevPicker();
     }
 
     public void scoreUp(){
