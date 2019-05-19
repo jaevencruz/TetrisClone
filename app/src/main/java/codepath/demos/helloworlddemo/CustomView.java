@@ -413,15 +413,16 @@ public class CustomView extends View {
 
                 for (int k = counter; k > 0; k--) {
                     for (int l = 0; l < 10; l++) {
-                        if (k == 0) {
+                        if (k == 0 || k == 15) {
                             continue;
                         }
                         System.out.println("The color before was:" + grid[k][l].returnPaint().getColor());
                         tempColor = grid[k][l].returnPaint().getColor();
-                        grid[k+1][l].setPaint(tempColor);
+                        grid[k + 1][l].setPaint(tempColor);
                         System.out.println("The color now is:" + grid[k][l].returnPaint().getColor());
                     }
                 }
+
             //}
             //empty = true;
         //}
