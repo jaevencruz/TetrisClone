@@ -100,9 +100,12 @@ public class CustomView extends View {
 
     @Override
     protected void onDraw(Canvas canvas){
+        boolean flag;
         scoreStr = "Score: " + score;
-        clearRow();
-        gravity();
+        flag = clearRow();
+        if(flag==true) {
+            gravity();
+        }
         collisionDetection(rPlayer);
         gridBottomCheck(rPlayer);
         rPlayer.boundTetromino();
@@ -124,10 +127,13 @@ public class CustomView extends View {
 
     @Override
     public void draw(Canvas canvas){
+        boolean flag;
         super.draw(canvas);
         scoreStr = "Score: " + score;
-        clearRow();
-        gravity();
+        flag = clearRow();
+        if(flag == true) {
+            gravity();
+        }
         collisionDetection(rPlayer);
         gridBottomCheck(rPlayer);
         rPlayer.boundTetromino();
@@ -400,14 +406,17 @@ public class CustomView extends View {
             counter++;
             //If the full boolean is still true, it will "clear it" by making the entire grid the light gray color
             if(empty == true) {
+                System.out.println("Condition true");
 
-                for (int k = counter; k < 0; k--) {
+                for (int k = counter; k > 0; k--) {
                     for (int l = 0; l < 10; l++) {
                         if (k == 0) {
                             continue;
                         }
+                        System.out.println("The color before was:" + grid[k][l].returnPaint().getColor());
                         tempColor = grid[k - 1][l].returnPaint().getColor();
                         grid[k][l].setPaint(tempColor);
+                        System.out.println("The color now is:" + grid[k][l].returnPaint().getColor());
                     }
                 }
             }
@@ -417,9 +426,10 @@ public class CustomView extends View {
     }
 
     //Able to clear a row but does not move everything down
-    public void clearRow(){
+    public boolean clearRow(){
         //Full is initially true.  Guilty until proven innocent.
         boolean full = true;
+        boolean flag = false;
         for(int i = 0; i<16; i++){
             for(int j = 0; j < 10; j++){
                 //If anyone gridblock is light gray, the column is not full and the boolean is set false.
@@ -433,10 +443,15 @@ public class CustomView extends View {
                     grid[i][k].setPaint(Color.LTGRAY);
                 }
                 score += 500;
+                System.out.println("Row Cleared!");
+                flag = true;
+
             }
             full = true;
         }
+
         invalidate();
+        return flag;
     }
 
     public boolean bottomCheck(Rect[] tetromino){
