@@ -410,7 +410,7 @@ public class CustomView extends View {
             if(empty == true) {
                 System.out.println("Condition true");*/
 
-                for (int k = counter; k < 0; k--) {
+                for (int k = counter; k > 0; k--) {
                     for (int l = 0; l < 10; l++) {
                         if (k == 0) {
                             continue;
