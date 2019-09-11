@@ -9,7 +9,6 @@ import android.view.WindowManager;
 
 public class MainActivity extends Activity {
 
-	private CustomView mCustomView;
 	//private MainThread thread;
 	private GameThread th;
 
